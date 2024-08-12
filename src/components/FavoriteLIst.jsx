@@ -1,50 +1,10 @@
 import FavoriteCard from "./FavoriteCard";
 
-const FavoriteList = () => {
-  const favorites = [
-    {
-      imageSrc: "https://via.placeholder.com/250",
-      title: "Green Salad Recipes",
-      initialRating: 3,
-      initialBookmarked: true,
-    },
-    {
-      imageSrc: "https://via.placeholder.com/250",
-      title: "Pasta Recipes",
-      initialRating: 4,
-      initialBookmarked: false,
-    },
-    {
-      imageSrc: "https://via.placeholder.com/250",
-      title: "Pasta Recipes",
-      initialRating: 4,
-      initialBookmarked: false,
-    },
-    {
-      imageSrc: "https://via.placeholder.com/250",
-      title: "Pasta Recipes",
-      initialRating: 4,
-      initialBookmarked: false,
-    },
-    {
-      imageSrc: "https://via.placeholder.com/250",
-      title: "Pasta Recipes",
-      initialRating: 4,
-      initialBookmarked: false,
-    },
-    {
-      imageSrc: "https://via.placeholder.com/250",
-      title: "Pasta Recipes",
-      initialRating: 4,
-      initialBookmarked: false,
-    },
-    // Add more items here
-  ];
-
+const FavoriteList = ({ favorites }) => {
   console.log("Favorites:", favorites);
 
   return (
-    <div className="flex space-x-4">
+    <div className="">
       {favorites.map((favorite, index) => (
         <FavoriteCard
           key={index}

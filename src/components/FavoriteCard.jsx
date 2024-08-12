@@ -15,15 +15,15 @@ const FavoriteCard = ({
   console.log("Bookmarked:", title);
 
   return (
-    <div className="w-[250px] bg-white rounded-lg shadow-lg overflow-hidden">
-      <div className="h-[150px] w-full overflow-hidden">
+    <div className="w-[300px] bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="h-[200px] w-full overflow-hidden">
         <img
           src={imageSrc}
           alt={title}
           className="object-cover w-full h-full"
         />
       </div>
-      <div className="p-4">
+      <div className="p-2">
         <h2 className="text-lg font-semibold mb-2">{title}</h2>
         <div className="flex items-center justify-between">
           <div className="flex items-center">
