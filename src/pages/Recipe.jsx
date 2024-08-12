@@ -1,0 +1,109 @@
+import { useState } from "react";
+import CategoryFilter from "../components/CategoryFilter";
+import RecipesList from "../components/RecipesList";
+import { User } from "lucide-react";
+
+const categories = [
+  { id: "all", name: "All Foods", icon: <User /> },
+  { id: "healthy", name: "Healthy Foods", icon: <User /> },
+  { id: "recipes", name: "Healthy Recipes", icon: <User /> },
+  { id: "quick", name: "Quick and Fast", icon: <User /> },
+];
+const recipes = [
+  {
+    id: 1,
+    name: "Chinese Noodles",
+    author: "maddie",
+    time: 40,
+    rating: 2,
+    favorite: false,
+    image: "./chowmin.jpg",
+  },
+  {
+    id: 2,
+    name: "Burger King",
+    author: "harry",
+    time: 25,
+    rating: 3,
+    favorite: false,
+    image: "./chowmin.jpg",
+  },
+  {
+    id: 3,
+    name: "Burger King",
+    author: "harry",
+    time: 25,
+    rating: 3,
+    favorite: false,
+    image: "./chowmin.jpg",
+  },
+  {
+    id: 4,
+    name: "Burger King",
+    author: "harry",
+    time: 25,
+    rating: 3,
+    favorite: false,
+    image: "./chowmin.jpg",
+  },
+  {
+    id: 5,
+    name: "Burger King",
+    author: "harry",
+    time: 25,
+    rating: 3,
+    favorite: false,
+    image: "./chowmin.jpg",
+  },
+  {
+    id: 6,
+    name: "Burger King",
+    author: "harry",
+    time: 25,
+    rating: 3,
+    favorite: false,
+    image: "./chowmin.jpg",
+  },
+  {
+    id: 7,
+    name: "Burger King",
+    author: "harry",
+    time: 25,
+    rating: 3,
+    favorite: false,
+    image: "./chowmin.jpg",
+  },
+];
+
+const Recipe = () => {
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
+  const filteredRecipes =
+    selectedCategory === "all"
+      ? recipes
+      : recipes.filter((recipe) => recipe.category === selectedCategory);
+
+  return (
+    <div className="flex overflow-scroll scrollbar-hide">
+      <div className="p-8 w-full bg-gray-50 ">
+        <div className="ml-[15px]">
+          <div className="">
+            <h1 className="text-3xl font-bold">Discover Recipes</h1>
+            <hr className="h-[2px] border border-stone-200 mt-[20px]" />
+          </div>
+          <div className="">
+            <CategoryFilter
+              categories={categories}
+              selectedCategory={selectedCategory}
+              onSelectCategory={setSelectedCategory}
+            />
+            <h2 className="text-2xl font-semibold mt-6">All Foods</h2>
+            <RecipesList recipes={filteredRecipes} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Recipe;

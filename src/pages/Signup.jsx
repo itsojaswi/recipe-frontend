@@ -32,7 +32,7 @@ const Login = () => {
         {/* login form */}
         <div
           style={{ boxShadow: "0px 0px 36.9px 6px rgba(0, 0, 0, 0.25)" }}
-          className="flex flex-col gap-4 h-[610px] bg-white w-[450px] rounded-3xl border justify-center items-center  px-12"
+          className="flex flex-col gap-4 h-[610px] bg-[#fefefe] w-[450px] rounded-3xl border justify-center items-center  px-12"
         >
           <div className="flex flex-col gap-3 w-full mt-[40px]">
             <div className="relative h-10 w-full mb-3 text-[#A4A4A4]">
@@ -88,11 +88,11 @@ const Login = () => {
           </div>
           {/* Social login buttons */}
           <div className="flex justify-center gap-4 mt-4">
-            <Button className="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center">
-              <img src="./google.png" alt="" className="w-full h-full" />
+            <Button className=" text-white rounded-full p-0 w-10 h-10 flex items-center justify-center bg-white hover:bg-white drop-shadow-md">
+              <img src="./google.png" alt="" className="w-8 h-8" />
             </Button>
-            <Button className="bg-red-600 rounded-full w-10 h-10 flex items-center justify-center">
-              <img src="./facebook1.png" alt="" className="w-full h-full" />
+            <Button className="rounded-full w-10 p-0 h-10 flex items-center justify-center bg-white hover:bg-white drop-shadow-md">
+              <img src="./facebook1.png" alt="" className="w-8 h-8 " />
             </Button>
           </div>
           {/* Sign up link */}

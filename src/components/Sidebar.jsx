@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, Outlet } from "react-router-dom";
-import { FiSearch } from "react-icons/fi";
+import { Link, useLocation } from "react-router-dom";
 import {
   NotebookPen,
   Star,
@@ -13,7 +12,7 @@ const Sidebar = () => {
   const items = [
     {
       text: "Recipes",
-      link: "",
+      link: "/",
       icon: (
         <span className="icon">
           <CookingPot />
@@ -31,7 +30,7 @@ const Sidebar = () => {
     },
     {
       text: "Favorites",
-      link: "",
+      link: "/favorite",
       icon: (
         <span className="icon">
           <Star />
@@ -76,8 +75,8 @@ const Sidebar = () => {
   };
 
   return (
-    <div style={{ display: "flex", width: "97vw" }}>
-      <div className="w-64 h-screen bg-white flex flex-col justify-between shadow-lg ">
+    <div style={{ display: "flex" }}>
+      <div className="w-64 fixed h-screen bg-white flex flex-col justify-between shadow-lg ">
         <div className="w-full mt-[69px] text-[#949494] font-medium">
           {items.map((item, index) => (
             <div
@@ -103,9 +102,9 @@ const Sidebar = () => {
         {/* Bottom Section */}
         <div className="flex flex-col items-center border-t-2 border-[#D9D9D9] p-[50px]">
           <img
-            src="./facebook.png"
+            src="./avatar.png"
             alt="Profile"
-            className="w-16 h-16 rounded-full"
+            className="w-24 h-24 rounded-[100%]"
           />
           <span className="mt-2 font-semibold text-[#636363] ">Mark Obroy</span>
           <Link to="" className="text-[#B55D51] mt-1 text-sm font-medium">
