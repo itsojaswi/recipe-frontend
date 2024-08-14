@@ -12,7 +12,7 @@ const Sidebar = () => {
   const items = [
     {
       text: "Recipes",
-      link: "/",
+      link: "/recipes",
       icon: (
         <span className="icon">
           <CookingPot />
@@ -21,7 +21,7 @@ const Sidebar = () => {
     },
     {
       text: "Meal Planner",
-      link: "",
+      link: "/mealplanner",
       icon: (
         <span className="icon">
           <NotebookPen />
@@ -39,7 +39,7 @@ const Sidebar = () => {
     },
     {
       text: "Add Recipe",
-      link: "",
+      link: "/addrecipe",
       icon: (
         <span className="icon">
           <CirclePlus />
@@ -76,7 +76,7 @@ const Sidebar = () => {
 
   return (
     <div style={{ display: "flex" }}>
-      <div className="w-64 fixed h-screen bg-white flex flex-col justify-between shadow-lg ">
+      <div className="w-55 fixed h-screen bg-white flex flex-col justify-between shadow-lg ">
         <div className="w-full mt-[69px] text-[#949494] font-medium">
           {items.map((item, index) => (
             <div
@@ -104,7 +104,7 @@ const Sidebar = () => {
           <img
             src="./avatar.png"
             alt="Profile"
-            className="w-24 h-24 rounded-[100%]"
+            className="w-20 h-20 rounded-[100%]"
           />
           <span className="mt-2 font-semibold text-[#636363] ">Mark Obroy</span>
           <Link to="" className="text-[#B55D51] mt-1 text-sm font-medium">

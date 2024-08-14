@@ -1,59 +1,27 @@
 import { useState } from "react";
-import { Bookmark, Star } from "lucide-react";
+import { HiDotsVertical } from "react-icons/hi";
 
-const FavoriteCard = ({
-  imageSrc,
-  title,
-  initialRating,
-  initialBookmarked,
-}) => {
-  const [isBookmarked, setIsBookmarked] = useState(initialBookmarked);
-  const [rating, setRating] = useState(initialRating);
-
-  console.log("Rating:", rating);
-  console.log("Bookmarked:", isBookmarked);
-  console.log("Bookmarked:", title);
-
+const FavoriteCard = ({ imageSrc, title }) => {
   return (
-    <div className="w-[300px] bg-white rounded-xl shadow-lg overflow-hidden">
-      <div className="h-[200px] w-full overflow-hidden">
-        <img
-          src={imageSrc}
-          alt={title}
-          className="object-cover w-full h-full"
-        />
-      </div>
-      <div className="p-2">
-        <h2 className="text-lg font-semibold mb-2">{title}</h2>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            {[1, 2, 3, 4, 5].map((star) =>
-              star <= rating ? (
-                <Star
-                  key={star}
-                  className="h-4 w-4 text-yellow-500 cursor-pointer"
-                  onClick={() => setRating(star)}
-                />
-              ) : (
-                <Star
-                  key={star}
-                  className="h-4 w-4 text-gray-400 cursor-pointer"
-                  onClick={() => setRating(star)}
-                />
-              )
-            )}
-          </div>
-          <button
-            onClick={() => setIsBookmarked(!isBookmarked)}
-            className="text-gray-600 focus:outline-none"
-          >
-            {isBookmarked ? (
-              <Bookmark className="h-5 w-5 text-red-500" />
-            ) : (
-              <Bookmark className="h-5 w-5" />
-            )}
-          </button>
-        </div>
+    <div className="w-[350px] h-[250px] rounded-xl shadow-xl hover:scale-105 transition-transform duration-400 ease-in-out relative ">
+      <img
+        src={imageSrc}
+        alt={title}
+        className="object-cover w-full h-full rounded-xl"
+      />
+      <div
+        className="absolute top-0 rounded-xl bottom-0 w-full p-2 text-white transition-opacity duration-300 bg-transparnet opacity-0 hover:opacity-100 z-10"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0),rgba(0,0,0,0.7))",
+        }}
+      >
+        <h2 className="text-lg font-semibold text-white absolute left-3 bottom-4 ">
+          {title}
+        </h2>
+        <button className="text-white bg-black bg-opacity-50 hover:bg-opacity-70 p-2 rounded-full m-1 right-3 top-2 absolute">
+          <HiDotsVertical className="h-[20px] w-[20px]" />
+        </button>
       </div>
     </div>
   );

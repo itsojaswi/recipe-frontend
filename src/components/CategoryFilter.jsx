@@ -5,7 +5,7 @@ const CategoryFilter = ({ categories, selectedCategory, onSelectCategory }) => {
         <button
           key={category.id}
           onClick={() => onSelectCategory(category.id)}
-          className={`flex flex-col items-center justify-center p-4 rounded-[100%] h-[100px] w-[100px] border-2 cursor-pointer ${
+          className={`flex flex-col items-center justify-center p-4 rounded-[100%] h-[110px] w-[110px] border-2 cursor-pointer ${
             selectedCategory === category.id
               ? "bg-[#B55D51] text-white border-transparent"
               : "bg-transparent text-gray-500 border-gray-200 hover:bg-gray-100"
