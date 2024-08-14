@@ -16,6 +16,18 @@ const InfoItem = ({ icon: Icon, text, rotate }) => (
 );
 
 const Recipe = () => {
+  const dummyIngredients = [
+    "Cook the noodles according to package instructions. Drain and set aside.",
+    "Heat a large pan or wok over medium-high heat. Add oil and let it heat up.",
+    "Add minced garlic and ginger to the pan. Sauté until fragrant, about 1 minute.",
+    "Add thinly sliced vegetables (like bell peppers, carrots, and cabbage) and stir-fry for 2-3 minutes until slightly tender.",
+    "Push the vegetables to one side of the pan, then add the cooked noodles.",
+    "Pour soy sauce, oyster sauce, and a dash of sesame oil over the noodles. Toss everything together until well combined.",
+    "Cook for another 2-3 minutes, letting the noodles absorb the sauce and become slightly crispy.",
+    "Add cooked protein (like chicken, shrimp, or tofu) if desired, and stir-fry for another minute.",
+    "Garnish with chopped green onions and sesame seeds before serving.",
+    "Serve hot and enjoy your homemade Chow Mein!",
+  ];
   // dummyData.js
   const dummyRecipe = [
     {
@@ -50,6 +62,10 @@ const Recipe = () => {
     },
   ];
 
+  const handelAddToMeal = () => {
+    console.log("Added to meal");
+  };
+
   return (
     <div>
       <div className="w-full">
@@ -78,37 +94,50 @@ const Recipe = () => {
             </div>
           </div>
           <div>
-            <Button className="border p-2 rounded-[5px] mr-2">
+            <Button className=" p-2 rounded-[5px] mr-2 border">
               <FaRegBookmark className="h-[20px] w-[20px] text-[#B55D51]" />
             </Button>
-            <Button className="border p-2 rounded-[5px] ml-2">
+            <Button className=" p-2 rounded-[5px] ml-2 border">
               <Share2 className="h-[20px] w-[20px] text-[#B55D51]" />
             </Button>
           </div>
         </div>
         <hr className="h-[2px] border border-stone-200 mt-[10px]" />
       </div>
-      <div className="mt-6 flex flex-col lg:flex-row border">
-        <div className="w-full  border">
+      <div className="mt-6 flex flex-col lg:flex-row ">
+        <div className="w-full  ">
           <img src="./chowmin.jpg" alt="Chowmin" className="w-full" />
-          <div className="mt-4 border">
-            <div className="flex justify-between items-center">
-              <h1>Cook Time: 45min</h1>
-              <Button>dshfsdhkj</Button>
+          <div className="mt-4 ">
+            <div className="flex justify-between items-center ">
+              <h1 className="italic font-medium text-2xl">Cook Time: 45min</h1>
+              <Button
+                onClick={handelAddToMeal}
+                className="bg-[#B55D51] text-white rounded-full hover:bg-[#B55D51]"
+              >
+                Add ro meal
+              </Button>
             </div>
-            <div>
-              <ul className="list-disc pl-6">
-                <li>Ingredient 1</li>
-                <li>Ingredient 2</li>
-                <li>Ingredient 3</li>
-                {/* Add more ingredients here */}
+            <div className="m-3 mt-8 rounded-[8px]">
+              <ul className="">
+                {dummyIngredients.map((ingredient, index) => {
+                  return (
+                    <div key={index} className="flex items-center gap-3 m-3 ">
+                      <div className="h-[20px] w-[20px] bg-[#B55D51] text-white rounded-[4px] justify-center flex">
+                        <p className="text-sm font-medium">{index + 1}</p>
+                      </div>
+                      <li key={index}>{ingredient}</li>
+                    </div>
+                  );
+                })}
               </ul>
             </div>
+            <div>jfdskfksdnfknk</div>
+            <div>dfksdnfknsk</div>
           </div>
         </div>
-        <div className="w-full lg:w-1/2 ml-0 lg:ml-11 mt-8 lg:mt-0 border">
+        <div className="w-full lg:w-1/2 ml-0 lg:ml-11 mt-8 lg:mt-0 ">
           <Ingredients />
-          <div className="mt-8 text-4xl border">
+          <div className="mt-8 text-4xl ">
             <h1 className="italic font-medium">Similar Recipe</h1>
             <div className="bg-white">
               {dummyRecipe.map((recipe, index) => (
