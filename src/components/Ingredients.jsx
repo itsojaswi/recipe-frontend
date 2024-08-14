@@ -31,7 +31,7 @@ const Ingredients = () => {
   };
   return (
     <div className="">
-      <h2 className="text-2xl font-medium  italic mb-4">Ingredients:</h2>
+      <h2 className="text-3xl font-medium  italic mb-4 ">Ingredients:</h2>
       <ul className="space-y-2">
         {ingredients.map((item, index) => (
           <li
@@ -44,7 +44,7 @@ const Ingredients = () => {
               type="checkbox"
               checked={item.checked}
               onChange={() => handleCheckboxChange(index)}
-              className="mr-2 accent-[#B55D51]"
+              className="m-2 accent-[#B55D51]"
             />
             <span>{item.name}</span>
           </li>
