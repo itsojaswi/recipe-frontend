@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
 
-const FavoriteCard = ({ imageSrc, title }) => {
+const MyRecipe = ({ imageSrc, title }) => {
   return (
-    <div className="w-[350px] h-[250px] rounded-xl shadow-xl hover:scale-105 transition-transform duration-400 ease-in-out relative ">
+    <div className="w-[300px] h-[200px] rounded-xl shadow-xl hover:scale-105 transition-transform duration-400 ease-in-out relative ">
       <img
         src={imageSrc}
         alt={title}
@@ -27,4 +27,4 @@ const FavoriteCard = ({ imageSrc, title }) => {
   );
 };
 
-export default FavoriteCard;
+export default MyRecipe;

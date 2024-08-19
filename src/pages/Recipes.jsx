@@ -10,6 +10,7 @@ const categories = [
   { id: "recipes", name: "Healthy Recipes", icon: <User /> },
   { id: "quick", name: "Quick and Fast", icon: <User /> },
 ];
+
 const recipes = [
   {
     id: 1,
@@ -40,6 +41,24 @@ const recipes = [
   },
   {
     id: 4,
+    name: "Burger King",
+    author: "harry",
+    time: 25,
+    rating: 3,
+    favorite: false,
+    image: "./chowmin.jpg",
+  },
+  {
+    id: 5,
+    name: "Burger King",
+    author: "harry",
+    time: 25,
+    rating: 3,
+    favorite: false,
+    image: "./chowmin.jpg",
+  },
+  {
+    id: 6,
     name: "Burger King",
     author: "harry",
     time: 25,

@@ -13,15 +13,15 @@ const SimilarRecipe = ({ text, paragraph, rating }) => {
       </div>
       <div className="ml-4 flex-grow flex flex-col justify-between w-[300px]">
         <div className=" flex flex-col justify-between ">
-          <div className=" h-[35px]">
+          <div className="mb-2">
             <h1 className="text-xl font-bold truncate">{text}</h1>
           </div>
-          <div className=" h-[70px]">
+          <div className=" h-[67px]">
             <p
               className="text-sm overflow-hidden text-ellipsis"
               style={{
                 display: "-webkit-box",
-                WebkitLineClamp: 3,
+                WebkitLineClamp: 2,
                 WebkitBoxOrient: "vertical",
               }}
             >
@@ -29,7 +29,7 @@ const SimilarRecipe = ({ text, paragraph, rating }) => {
             </p>
           </div>
         </div>
-        <div className="flex">
+        <div className="flex gap-[2px]">
           {[1, 2, 3, 4, 5].map((star) => (
             <Star key={star} className="text-yellow-400 h-[16px] w-[16px]" />
           ))}

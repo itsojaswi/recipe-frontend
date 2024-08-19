@@ -6,7 +6,7 @@ const Layout = () => {
   return (
     <div className="flex ">
       <Sidebar />
-      <div className="ml-[200px] px-9 py-11 flex flex-col w-full h-full overflow-scroll scrollbar-hide">
+      <div className="ml-[185px]  px-9 py-11 flex flex-col w-full h-[100vh] overflow-scroll scrollbar-hide bg-[#eeeeee]">
         <Outlet />
       </div>
     </div>
