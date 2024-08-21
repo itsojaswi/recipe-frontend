@@ -3,14 +3,16 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Mail } from "lucide-react";
 import { Lock } from "lucide-react";
+import { useLogin } from "../hooks/useLogin";
+
 const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const { login, error, isLoading } = useLogin();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
+    await login(email, password);
     setEmail("");
     setPassword("");
   };
@@ -58,11 +60,13 @@ const Login = () => {
             </p>
             {/* Login button */}
             <Button
+              disabled={isLoading}
               onClick={handleLogin}
               className="p-3 rounded-[18px] h-42 bg-[#B55D51] text-white hover:bg-[#9b4b44]"
             >
               Login
             </Button>
+            {error && <p className="text-red-500">{error}</p>}
           </div>
           {/* Divider */}
           <div className="w-full flex items-center mt-4">
