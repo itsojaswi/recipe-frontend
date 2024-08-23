@@ -50,7 +50,7 @@ export const authReducer = (state, action) => {
 // Context provider component
 export const AuthContextProvider = ({ children }) => {
   const initialState = {
-    isAuthenticated: false,
+    isAuthenticated: !!localStorage.getItem("user"),
     user: null,
     loading: false,
     error: null,
@@ -58,9 +58,14 @@ export const AuthContextProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(authReducer, initialState);
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user && user.token) {
-      dispatch({ type: "LOGIN", payload: user });
+    const storedUser = localStorage.getItem("user");
+    console.log("Stored user:", storedUser);
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      console.log("Parsed user:", user);
+      if (user && user.token) {
+        dispatch({ type: "LOGIN", payload: user });
+      }
     }
   }, []);
 
