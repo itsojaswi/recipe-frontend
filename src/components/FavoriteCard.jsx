@@ -12,21 +12,7 @@ const RecipeCard = ({
   return (
     <div className="rounded-[15px] shadow-lg overflow-hidden bg-white ">
       <img src={imageSrc} alt={title} className="w-full h-48 object-cover" />
-      <div className="p-2 w-full">
-        <div className="flex gap-2 items-center">
-          <img src={imageSrc} alt="" className="h-8 w-8 rounded-full" />
-          <p className="text-sm text-gray-500 font-semibold">by bruh</p>
-        </div>
-        <div className="flex justify-between items-center ">
-          <div className=" w-full">
-            <h3 className="text-lg font-semibold overflow-hidden whitespace-nowrap text-ellipsis">
-              {title}
-            </h3>
-          </div>
-          <button onClick={toggleFavorite}>
-            <FaBookmark className="text-[#B55D51]" />
-          </button>
-        </div>
+      <div className="p-2">
         <div className="flex items-center mt-2">
           {[...Array(5)].map((_, i) => (
             <svg
@@ -41,6 +27,18 @@ const RecipeCard = ({
             </svg>
           ))}
         </div>
+        <div className="flex justify-between items-center mt-2">
+          <h3 className="text-lg font-semibold">{title}</h3>
+          <button onClick={toggleFavorite}>
+            {isFavorite ? (
+              <FaBookmark className="text-red-500" />
+            ) : (
+              <FaRegBookmark className="text-gray-400" />
+            )}
+          </button>
+        </div>
+
+        <p className="text-sm text-gray-500 mt-2">asndjasn</p>
       </div>
     </div>
   );

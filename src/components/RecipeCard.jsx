@@ -3,6 +3,7 @@ import { Star } from "lucide-react";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { Link } from "react-router-dom";
 
 const RecipeCard = ({ recipe }) => {
   let token;
@@ -77,25 +78,27 @@ const RecipeCard = ({ recipe }) => {
 
   return (
     <div className="bg-white rounded-xl p-2 shadow-xl hover:scale-105 transition-transform duration-400">
-      <img
-        src={recipe.image}
-        alt={recipe.title}
-        className="rounded-xl w-full h-48 object-cover mb-4"
-      />
-      <h3 className="text-xl font-semibold truncate">{recipe.title}</h3>
-      <div className="flex items-center text-gray-500 mt-2">
+      <Link to={"/recipe"}>
         <img
           src={recipe.image}
-          alt={recipe.name}
-          className="h-8 w-8 rounded-full object-cover"
+          alt={recipe.title}
+          className="rounded-xl w-full h-48 object-cover mb-4"
         />
-        <div className="flex justify-between w-full ml-2">
-          <div className="w-[120px]">
-            <p className="text-sm truncate">by {recipe.author}</p>
+        <h3 className="text-xl font-semibold truncate">{recipe.title}</h3>
+        <div className="flex items-center text-gray-500 mt-2">
+          <img
+            src={recipe.image}
+            alt={recipe.name}
+            className="h-8 w-8 rounded-full object-cover"
+          />
+          <div className="flex justify-between w-full ml-2">
+            <div className="w-[120px]">
+              <p className="text-sm truncate">by {recipe.createdBy.name}</p>
+            </div>
+            <p className="text-sm">{recipe.cookTime} min</p>
           </div>
-          <p className="text-sm">{recipe.cookTime} min</p>
         </div>
-      </div>
+      </Link>
       <div className="flex justify-between items-center mt-2">
         <div className="flex">
           {[1, 2, 3, 4, 5].map((star) =>

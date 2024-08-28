@@ -59,7 +59,6 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    console.log("stored user: ", storedUser);
     if (storedUser) {
       const user = JSON.parse(storedUser);
       if (user && user.token && user.username) {

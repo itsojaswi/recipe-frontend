@@ -76,17 +76,17 @@ const Sidebar = () => {
 
   const handleItemClick = (index, isProfile = false) => {
     if (isProfile) {
-      setSelected(-1); // Ensure no menu item is selected
-      setProfileBorder(true); // Add border to profile image
+      setSelected(-1);
+      setProfileBorder(true);
     } else {
       setSelected(index);
-      setProfileBorder(false); // Remove border from profile image
+      setProfileBorder(false);
     }
   };
 
   return (
     <div style={{ display: "flex" }}>
-      <div className="w-[190px] fixed h-screen bg-white flex flex-col justify-between shadow-lg ">
+      <div className="fixed h-screen bg-white flex flex-col justify-between shadow-lg lg:w-[180px] md:w-[150px] sm:w-[100px] ">
         <div className="w-full mt-[69px] text-[#949494] font-medium">
           {items.map((item, index) => (
             <div
@@ -104,7 +104,9 @@ const Sidebar = () => {
                 onClick={() => handleItemClick(index)}
               >
                 {item.icon}
-                <span className="mt-2 text-sm">{item.text}</span>
+                <span className="mt-2  text-sm hidden lg:block">
+                  {item.text}
+                </span>
               </Link>
             </div>
           ))}
@@ -120,15 +122,17 @@ const Sidebar = () => {
               <img
                 src="./avatar.png"
                 alt="Profile"
-                className={`w-20 h-20 rounded-[100%] mb-3 ${
+                className={`rounded-full mb-3 ${
                   profileBorder ? "border-4 border-[#B55D51]" : ""
-                }`}
+                } w-16 h-16 lg:w-20 lg:h-20`}
               />
             </div>
-            <span className="font-semibold text-[#636363] text-[20px] ">
-              {username}
-            </span>
-            <div className="flex justify-center mt-2">
+            <div className="flex justify-center items-center mt-2">
+              <span className="font-semibold text-[#636363] lg:text-[20px] md:text-[15px] sm:text-sm">
+                {username}
+              </span>
+            </div>
+            <div className="flex justify-center items-center mt-2">
               <p>Edit Profile</p>
             </div>
           </Link>
