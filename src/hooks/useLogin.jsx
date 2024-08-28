@@ -22,19 +22,16 @@ export const useLogin = () => {
       });
 
       const json = await response.json();
-      console.log("Backend response:", json); // Log the entire response
 
       if (response.ok && json.token) {
         // Save the user data to local storage
         localStorage.setItem("user", JSON.stringify(json));
         dispatch({ type: "LOGIN", payload: json });
-        console.log("User saved to local storage and dispatched:", json);
         navigate("/recipes");
       } else {
         setError(json.error || "Signup failed");
       }
     } catch (err) {
-      console.error("Error during signup:", err);
       setError("An error occurred during signup");
     } finally {
       setIsLoading(false);

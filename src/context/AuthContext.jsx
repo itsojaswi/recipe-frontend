@@ -59,18 +59,17 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    console.log("Stored user:", storedUser);
+    console.log("stored user: ", storedUser);
     if (storedUser) {
       const user = JSON.parse(storedUser);
-      console.log("Parsed user:", user);
-      if (user && user.token) {
+      if (user && user.token && user.username) {
         dispatch({ type: "LOGIN", payload: user });
       }
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
+    <AuthContext.Provider value={{ ...state, dispatch }}>
       {children}
     </AuthContext.Provider>
   );

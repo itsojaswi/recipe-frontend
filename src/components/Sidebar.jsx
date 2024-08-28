@@ -7,8 +7,11 @@ import {
   CirclePlus,
   Search,
 } from "lucide-react";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Sidebar = () => {
+  const { user } = useAuthContext();
+  const username = user ? user.username : "name";
   const items = [
     {
       text: "Recipes",
@@ -48,7 +51,7 @@ const Sidebar = () => {
     },
     {
       text: "Search",
-      link: "",
+      link: "/search",
       icon: (
         <span className="icon">
           <Search />
@@ -58,6 +61,7 @@ const Sidebar = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [profileBorder, setProfileBorder] = useState(false);
 
   const location = useLocation();
 
@@ -68,15 +72,21 @@ const Sidebar = () => {
     } else {
       setSelected(0);
     }
-  }, []);
+  }, [location.pathname]);
 
-  const handleItemClick = (index) => {
-    setSelected(index);
+  const handleItemClick = (index, isProfile = false) => {
+    if (isProfile) {
+      setSelected(-1); // Ensure no menu item is selected
+      setProfileBorder(true); // Add border to profile image
+    } else {
+      setSelected(index);
+      setProfileBorder(false); // Remove border from profile image
+    }
   };
 
   return (
     <div style={{ display: "flex" }}>
-      <div className="w-55 fixed h-screen bg-white flex flex-col justify-between shadow-lg ">
+      <div className="w-[190px] fixed h-screen bg-white flex flex-col justify-between shadow-lg ">
         <div className="w-full mt-[69px] text-[#949494] font-medium">
           {items.map((item, index) => (
             <div
@@ -101,14 +111,26 @@ const Sidebar = () => {
         </div>
         {/* Bottom Section */}
         <div className="flex flex-col items-center border-t-2 border-[#D9D9D9] p-[50px]">
-          <img
-            src="./avatar.png"
-            alt="Profile"
-            className="w-20 h-20 rounded-[100%]"
-          />
-          <span className="mt-2 font-semibold text-[#636363] ">Mark Obroy</span>
-          <Link to="" className="text-[#B55D51] mt-1 text-sm font-medium">
-            Edit Profile
+          <Link
+            to=""
+            className="text-[#B55D51] mt-1 text-sm font-medium"
+            onClick={() => handleItemClick(-1, true)}
+          >
+            <div className="flex  justify-center">
+              <img
+                src="./avatar.png"
+                alt="Profile"
+                className={`w-20 h-20 rounded-[100%] mb-3 ${
+                  profileBorder ? "border-4 border-[#B55D51]" : ""
+                }`}
+              />
+            </div>
+            <span className="font-semibold text-[#636363] text-[20px] ">
+              {username}
+            </span>
+            <div className="flex justify-center mt-2">
+              <p>Edit Profile</p>
+            </div>
           </Link>
         </div>
       </div>

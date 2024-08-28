@@ -6,8 +6,8 @@ import { Lock } from "lucide-react";
 import { useLogin } from "../hooks/useLogin";
 
 const Login = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState("ojaswi@gmail.com");
+  const [password, setPassword] = React.useState("StrongPassword123!");
   const { login, error, isLoading } = useLogin();
 
   const handleLogin = async (e) => {

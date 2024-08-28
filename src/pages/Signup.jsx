@@ -14,10 +14,6 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     await signUp(user, email, password, confirmPassword);
-    console.log("Email:", email);
-    console.log("User:", user);
-    console.log("Password:", password);
-    console.log("confirm Password:", confirmPassword);
     setEmail("");
     setUser("");
     setPassword("");

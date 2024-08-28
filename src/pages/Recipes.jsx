@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CategoryFilter from "../components/CategoryFilter";
 import RecipesList from "../components/RecipesList";
 import { User } from "lucide-react";
 import { PiBowlFoodBold } from "react-icons/pi";
+import axios from "axios";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const categories = [
   { id: "all", name: "All Foods", icon: <PiBowlFoodBold /> },
@@ -11,66 +13,44 @@ const categories = [
   { id: "quick", name: "Quick and Fast", icon: <User /> },
 ];
 
-const recipes = [
-  {
-    id: 1,
-    name: "Chinese Noodles",
-    author: "maddie",
-    time: 40,
-    rating: 2,
-    favorite: false,
-    image: "./chowmin.jpg",
-  },
-  {
-    id: 2,
-    name: "Burger King",
-    author: "harry",
-    time: 25,
-    rating: 3,
-    favorite: false,
-    image: "./chowmin.jpg",
-  },
-  {
-    id: 3,
-    name: "Burger King",
-    author: "harry",
-    time: 25,
-    rating: 3,
-    favorite: false,
-    image: "./chowmin.jpg",
-  },
-  {
-    id: 4,
-    name: "Burger King",
-    author: "harry",
-    time: 25,
-    rating: 3,
-    favorite: false,
-    image: "./chowmin.jpg",
-  },
-  {
-    id: 5,
-    name: "Burger King",
-    author: "harry",
-    time: 25,
-    rating: 3,
-    favorite: false,
-    image: "./chowmin.jpg",
-  },
-  {
-    id: 6,
-    name: "Burger King",
-    author: "harry",
-    time: 25,
-    rating: 3,
-    favorite: false,
-    image: "./chowmin.jpg",
-  },
-];
-
 const Recipes = () => {
+  let token;
+  const { user } = useAuthContext();
+  if (user) {
+    token = user.token;
+  }
+
+  const [recipes, setRecipes] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("all");
 
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/recipe", {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        setRecipes(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching recipes:", error);
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRecipes();
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
   const filteredRecipes =
     selectedCategory === "all"
       ? recipes

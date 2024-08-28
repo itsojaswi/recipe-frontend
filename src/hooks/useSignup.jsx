@@ -27,15 +27,20 @@ export const useSignup = () => {
       });
 
       const json = await response.json();
-      console.log("Backend response:", json); // Log the entire response
 
       if (response.ok && json.token) {
-        // Save the user data to local storage
-        localStorage.setItem("user", JSON.stringify(json));
+        // Save the user data to local storage, including the username
+        const userData = {
+          email: json.email,
+          token: json.token,
+          username: json.username, // Make sure the username is saved
+        };
+
+        localStorage.setItem("user", JSON.stringify(userData));
 
         // Update the context with the registered user
-        dispatch({ type: "REGISTER", payload: json });
-        console.log("User saved to local storage and dispatched:", json);
+        dispatch({ type: "REGISTER", payload: userData });
+        console.log("User saved to local storage and dispatched:", userData);
       } else {
         setError(json.error || "Signup failed");
       }
