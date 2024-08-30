@@ -5,7 +5,6 @@ import Recipes from "./pages/Recipes";
 import Recipe from "./pages/Recipe";
 import Favorite from "./pages/Favorite";
 import Layout from "./components/layouts/Layout";
-import SearchBar from "./components/SearchBar";
 import MealPlanner from "./pages/MealPlanner";
 import AddRecipe from "./pages/AddRecipe";
 import PrivateRoute from "./routes/PrivateRoute";
@@ -24,7 +23,6 @@ function App() {
             <Route path="/favorite" element={<Favorite />} />
             <Route path="/mealplanner" element={<MealPlanner />} />
             <Route path="/my-recipes" element={<MyRecipes />} />
-            <Route path="/search" element={<SearchBar />} />
             <Route path="/recipe" element={<Recipe />} />
             <Route path="/add-recipe" element={<AddRecipe />} />
           </Route>

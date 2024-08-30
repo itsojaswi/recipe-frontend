@@ -8,6 +8,7 @@ import {
   Search,
 } from "lucide-react";
 import { useAuthContext } from "../hooks/useAuthContext";
+import SearchRecipes from "./SearchBar"; // Import the SearchRecipes component
 
 const Sidebar = () => {
   const { user } = useAuthContext();
@@ -51,22 +52,31 @@ const Sidebar = () => {
     },
     {
       text: "Search",
-      link: "/search",
+      link: "", // Updated to prevent page refresh
       icon: (
         <span className="icon">
           <Search />
         </span>
       ),
+      // action: () => setIsModalOpen(false),
     },
   ];
 
   const [selected, setSelected] = useState(0);
   const [profileBorder, setProfileBorder] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
 
   const location = useLocation();
 
   useEffect(() => {
-    const index = items.findIndex((item) => item.link === location.pathname);
+    const index = items.findIndex((item) => {
+      // Check if the current path matches the link or specific paths (e.g., "Add Recipe")
+      return (
+        location.pathname === item.link ||
+        (item.link === "/my-recipes" && location.pathname === "/add-recipe")
+      );
+    });
+
     if (index !== -1) {
       setSelected(index);
     } else {
@@ -74,13 +84,16 @@ const Sidebar = () => {
     }
   }, [location.pathname]);
 
-  const handleItemClick = (index, isProfile = false) => {
+  const handleItemClick = (index, item, isProfile = false) => {
     if (isProfile) {
       setSelected(-1);
       setProfileBorder(true);
     } else {
       setSelected(index);
       setProfileBorder(false);
+      if (item.action) {
+        item.action(); // Execute the custom action if defined
+      }
     }
   };
 
@@ -101,7 +114,7 @@ const Sidebar = () => {
               <Link
                 to={item.link}
                 className="flex flex-col items-center"
-                onClick={() => handleItemClick(index)}
+                onClick={() => handleItemClick(index, item)}
               >
                 {item.icon}
                 <span className="mt-2  text-sm hidden lg:block">
@@ -116,7 +129,7 @@ const Sidebar = () => {
           <Link
             to=""
             className="text-[#B55D51] mt-1 text-sm font-medium"
-            onClick={() => handleItemClick(-1, true)}
+            onClick={() => handleItemClick(-1, {}, true)}
           >
             <div className="flex  justify-center">
               <img
@@ -138,6 +151,9 @@ const Sidebar = () => {
           </Link>
         </div>
       </div>
+
+      {/* Include the SearchRecipes component */}
+      {/* <SearchRecipes isOpen={isModalOpen} setIsOpen={setIsModalOpen} /> */}
     </div>
   );
 };

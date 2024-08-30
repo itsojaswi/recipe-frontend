@@ -70,7 +70,6 @@ const MyRecipesPage = () => {
             Add Recipe
           </Button>
         </Link>
-        ;
       </div>
 
       {loading ? (

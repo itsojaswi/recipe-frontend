@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { Search } from "lucide-react";
-import Modal from "./Modal";
+import Modal from "./ui/modal";
+import { RxCross2 } from "react-icons/rx";
 
-const SearchRecipes = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const SearchRecipes = (isOpen, setIsOpen) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([
-    "Ramen",
-    "Rice",
-    "Noodles",
-    "Curry",
-    "Chowmin",
+    "Pasta",
+    "Pizza",
+    "Burger",
     "Salad",
+    "Soup",
   ]);
 
   const handleRemoveItem = (itemToRemove) => {
@@ -34,7 +33,7 @@ const SearchRecipes = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            {/* <Search className="text-gray-400 w-5 h-5" /> */}
+            <Search className="text-gray-400 w-5 h-5" />
           </div>
           <ul className="mt-4">
             {filteredResults.map((item, index) => (
@@ -47,7 +46,7 @@ const SearchRecipes = () => {
                   onClick={() => handleRemoveItem(item)}
                   className="text-gray-500 hover:text-gray-800"
                 >
-                  {/* <X className="w-5 h-5" /> */}
+                  <RxCross2 className="w-5 h-5" />
                 </button>
               </li>
             ))}
