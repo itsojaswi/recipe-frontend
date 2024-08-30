@@ -1,16 +1,26 @@
 import React from "react";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
+import { useFavorite } from "../hooks/useFavorite";
 
 const RecipeCard = ({
+  recipeid,
   imageSrc,
   title,
   rating,
   creator,
-  isFavorite,
-  toggleFavorite,
+  onRemoveFavorite,
 }) => {
+  const { isFavorite, toggleFavorite } = useFavorite(recipeid);
+
+  const handleToggleFavorite = () => {
+    toggleFavorite();
+    if (isFavorite) {
+      onRemoveFavorite(recipeid); // Remove from frontend if unfavorited
+    }
+  };
+
   return (
-    <div className="rounded-[15px] shadow-lg overflow-hidden bg-white ">
+    <div className="rounded-[15px] shadow-lg overflow-hidden bg-white transition-transform hover:scale-105 ">
       <img src={imageSrc} alt={title} className="w-full h-48 object-cover" />
       <div className="p-2">
         <div className="flex items-center mt-2">
@@ -29,16 +39,16 @@ const RecipeCard = ({
         </div>
         <div className="flex justify-between items-center mt-2">
           <h3 className="text-lg font-semibold">{title}</h3>
-          <button onClick={toggleFavorite}>
+          <button onClick={handleToggleFavorite}>
             {isFavorite ? (
-              <FaBookmark className="text-red-500" />
+              <FaBookmark className="text-[#B55D51]" />
             ) : (
               <FaRegBookmark className="text-gray-400" />
             )}
           </button>
         </div>
 
-        <p className="text-sm text-gray-500 mt-2">asndjasn</p>
+        <p className="text-sm text-gray-500 mt-2">by {creator}</p>
       </div>
     </div>
   );

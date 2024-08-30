@@ -40,7 +40,6 @@ export const useSignup = () => {
 
         // Update the context with the registered user
         dispatch({ type: "REGISTER", payload: userData });
-        console.log("User saved to local storage and dispatched:", userData);
       } else {
         setError(json.error || "Signup failed");
       }

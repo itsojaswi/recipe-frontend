@@ -1,12 +1,14 @@
+const { nextui } = require("@nextui-org/theme");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-
   content: [
     "./pages/**/*.{js,jsx}",
     "./components/**/*.{js,jsx}",
     "./app/**/*.{js,jsx}",
     "./src/**/*.{js,jsx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,jsx}", // Adjust this path as necessary
   ],
   prefix: "",
   theme: {
@@ -82,5 +84,6 @@ module.exports = {
     require("tailwindcss-animate"),
     require("tailwind-scrollbar"),
     require("tailwind-scrollbar-hide"),
+    nextui(),
   ],
 };

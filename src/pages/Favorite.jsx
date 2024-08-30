@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
-import MyRecipe from "../components/MyRecipe";
 import FavoriteCard from "../components/FavoriteCard";
 
 const Favorite = () => {
@@ -40,27 +39,51 @@ const Favorite = () => {
     }
   }, [user]);
 
+  const handleRemoveFavorite = async (recipeId) => {
+    const token = user?.token;
+
+    if (!user || !token) {
+      console.error("Token is not available");
+      return;
+    }
+
+    try {
+      setFavorites(
+        favorites.filter((favorite) => favorite.recipeId._id !== recipeId)
+      );
+    } catch (error) {
+      console.error("Error removing favorite:", error);
+      setError(error);
+    }
+  };
+
+  if (error) {
+    return <p>No Favorites Found</p>;
+  }
+
   return (
     <div>
       <div className="w-full">
         <h1 className="text-3xl font-bold">Favorites</h1>
         <hr className="h-[2px] border border-stone-200 mt-[20px] mb-[20px]" />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         {loading ? (
           <p>Loading...</p>
         ) : error ? (
           <p>Error: {error.message}</p>
         ) : (
           favorites.map((favorite) => {
-            const recipe = favorite.recipeId; // Access the recipeId object
+            const recipe = favorite.recipeId;
             return (
               <FavoriteCard
                 key={recipe._id}
+                recipeid={recipe._id}
                 imageSrc={recipe.image}
                 title={recipe.title}
                 rating={recipe.rating}
-                creator={recipe.creator}
+                creator={recipe.createdBy.username}
+                onRemoveFavorite={handleRemoveFavorite}
               />
             );
           })

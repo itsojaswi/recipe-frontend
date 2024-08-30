@@ -7,8 +7,9 @@ import Favorite from "./pages/Favorite";
 import Layout from "./components/layouts/Layout";
 import SearchBar from "./components/SearchBar";
 import MealPlanner from "./pages/MealPlanner";
-import AddRecipes from "./pages/AddRecipes";
+import AddRecipe from "./pages/AddRecipe";
 import PrivateRoute from "./routes/PrivateRoute";
+import MyRecipes from "./pages/MyRecipes";
 
 function App() {
   return (
@@ -16,15 +17,16 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Layout />}>
-          <Route element={<PrivateRoute />}>
+        <Route element={<PrivateRoute />}>
+          <Route path="/" element={<Layout />}>
             <Route path="/recipes" element={<Recipes />} />
             <Route path="/" element={<Recipes />} />
             <Route path="/favorite" element={<Favorite />} />
             <Route path="/mealplanner" element={<MealPlanner />} />
-            <Route path="/addrecipe" element={<AddRecipes />} />
+            <Route path="/my-recipes" element={<MyRecipes />} />
             <Route path="/search" element={<SearchBar />} />
             <Route path="/recipe" element={<Recipe />} />
+            <Route path="/add-recipe" element={<AddRecipe />} />
           </Route>
         </Route>
       </Routes>

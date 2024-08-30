@@ -41,8 +41,8 @@ const Sidebar = () => {
       ),
     },
     {
-      text: "Add Recipe",
-      link: "/addrecipe",
+      text: "My Recipes",
+      link: "/my-recipes",
       icon: (
         <span className="icon">
           <CirclePlus />
