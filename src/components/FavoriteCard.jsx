@@ -1,6 +1,7 @@
 import React from "react";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { useFavorite } from "../hooks/useFavorite";
+import { Link } from "react-router-dom";
 
 const RecipeCard = ({
   recipeid,
@@ -21,7 +22,9 @@ const RecipeCard = ({
 
   return (
     <div className="rounded-[15px] shadow-lg overflow-hidden bg-white transition-transform hover:scale-105 ">
-      <img src={imageSrc} alt={title} className="w-full h-48 object-cover" />
+      <Link to={`/recipe/${recipeid}`}>
+        <img src={imageSrc} alt={title} className="w-full h-48 object-cover" />
+      </Link>
       <div className="p-2">
         <div className="flex items-center mt-2">
           {[...Array(5)].map((_, i) => (

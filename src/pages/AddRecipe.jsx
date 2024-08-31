@@ -1,11 +1,24 @@
-import React from "react";
+import { React, useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { FaTrash } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
+import axios from "axios";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const AddRecipe = () => {
+  const navigate = useNavigate();
+  let token;
+  const { user } = useAuthContext();
+  if (user) {
+    token = user.token;
+  }
+
+  const [error, setError] = useState(null);
+
   const { handleSubmit, control, register, getValues } = useForm({
     defaultValues: {
       title: "",
@@ -36,11 +49,48 @@ const AddRecipe = () => {
     name: "instructions",
   });
 
-  const onSubmit = (data) => {
-    console.log("Submitting recipe:", data);
-    // Replace with your actual submit function
-    // onSubmit(data);
+  const onSubmit = async (data) => {
+    console.log("formdata: ", data);
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/recipe",
+        data,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      if (response.status === 200) {
+        console.log("Recipe submitted successfully!");
+        toast.success("Recipe submitted successfully!");
+        navigate(-1);
+        // Add any additional logic here after successful submission
+      } else {
+        setError("Failed to submit recipe");
+        toast.error("Failed to submit recipe");
+        // Handle error case here
+      }
+    } catch (error) {
+      if (
+        error.response.data.message ===
+        "Title, ingredients, and instructions are required"
+      ) {
+        toast.error("All fields must be filled.", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#BD6E64",
+          },
+        });
+      }
+      // Handle error case here
+    }
   };
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
   return (
     <div className="h-full p-4">
@@ -49,8 +99,8 @@ const AddRecipe = () => {
         <hr className="h-[2px] border border-stone-200 mt-4 mb-4" />
       </div>
 
-      <div className="flex gap-6">
-        <div className="w-1/3 bg-white rounded-[30px] overflow-hidden flex flex-col items-center p-4 h-[810px]">
+      <div className="flex gap-5 md:flex-col lg:flex-row">
+        <div className="lg:w-1/3 bg-white rounded-[30px] overflow-hidden flex flex-col items-center p-4 h-[810px] md:w-full sm:w-full">
           <Controller
             name="image"
             control={control}
@@ -162,7 +212,7 @@ const AddRecipe = () => {
           </div>
         </div>
 
-        <div className="flex flex-col h-full w-2/3">
+        <div className="flex flex-col h-full lg:w-2/3 md:w-full sm:w-full">
           <div className="flex-grow flex">
             {/* Content Section */}
             <div className="w-full p-4 rounded-lg overflow-y-auto">
@@ -178,7 +228,7 @@ const AddRecipe = () => {
                     defaultValue={ingredient.name}
                     {...register(`ingredients.${index}.name`)}
                     placeholder={`Ingredient ${index + 1} Name`}
-                    className="pl-4 py-2 border border-gray-300 rounded-[18px] h-[2.5rem] w-full outline-none"
+                    className="pl-4 py-2 border border-gray-300 rounded-[18px] h-[3rem] w-full outline-none"
                     required
                   />
                   <input
@@ -187,7 +237,7 @@ const AddRecipe = () => {
                     defaultValue={ingredient.quantity}
                     {...register(`ingredients.${index}.quantity`)}
                     placeholder={`Quantity ${index + 1}`}
-                    className="pl-4 py-2 border border-gray-300 rounded-[18px] h-[2.5rem] w-full outline-none"
+                    className="pl-4 py-2 border border-gray-300 rounded-[18px] h-[3rem] w-full outline-none"
                     required
                   />
                   <button

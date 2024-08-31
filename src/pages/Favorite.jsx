@@ -57,6 +57,14 @@ const Favorite = () => {
     }
   };
 
+  if (favorites.length === 0) {
+    return <p>No Favorites Found</p>;
+  }
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   if (error) {
     return <p>No Favorites Found</p>;
   }

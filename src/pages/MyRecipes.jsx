@@ -58,6 +58,19 @@ const MyRecipesPage = () => {
     }
   };
 
+  if (recipes.length === 0) {
+    return (
+      <div>
+        <h1>no recipes found</h1>{" "}
+        <Link to={"/add-recipe"}>
+          <Button className="h-[20px] bg-red-200 hover:bg-red-200 p-4 text-lg rounded-[10px] mt-[15px]">
+            Add Recipe
+          </Button>
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -81,6 +94,7 @@ const MyRecipesPage = () => {
           {recipes.map((recipe) => (
             <MyRecipeCard
               key={recipe._id}
+              recipeId={recipe._id}
               imageSrc={recipe.image}
               title={recipe.title}
               creator={recipe.createdBy.username}

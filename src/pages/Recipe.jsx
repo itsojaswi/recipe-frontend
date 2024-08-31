@@ -4,6 +4,11 @@ import { Button } from "@/components/ui/button";
 import Ingredients from "../components/Ingredients";
 import SimilarRecipe from "../components/SimilarRecipe";
 import { Input } from "@/components/ui/input";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { set } from "react-hook-form";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 const InfoItem = ({ icon: Icon, text, rotate }) => (
   <div className="flex justify-center items-center">
@@ -17,101 +22,95 @@ const InfoItem = ({ icon: Icon, text, rotate }) => (
 );
 
 const Recipe = () => {
-  const reviews = [
-    {
-      name: "John Doe",
-      time: "2 hours ago",
-      review:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit inventore numquam repellat libero! Voluptatem quos, doloremque nesciunt ea facere possimus. Ratione, inventore! Adipisci iste provident quos blanditiis ducimus expedita tempora.",
-    },
-    {
-      name: "John Doe",
-      time: "2 hours ago",
-      review: "This recipe was amazing! I loved it.",
-    },
-    {
-      name: "John Doe",
-      time: "2 hours ago",
-      review: "This recipe was amazing! I loved it.",
-    },
-    {
-      name: "John Doe",
-      time: "2 hours ago",
-      review: "This recipe was amazing! I loved it.",
-    },
-    {
-      name: "John Doe",
-      time: "2 hours ago",
-      review: "This recipe was amazing! I loved it.",
-    },
-  ];
+  const { recipeId } = useParams();
+  const [recipe, setRecipe] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [reviewText, setReviewText] = useState("");
+  const [reviewRating, setReviewRating] = useState(0);
 
-  const dummyIngredients = [
-    "Cook the noodles according to package instructions. Drain and set aside.",
-    "Heat a large pan or wok over medium-high heat. Add oil and let it heat up.",
-    "Add minced garlic and ginger to the pan. Sauté until fragrant, about 1 minute.",
-    "Add thinly sliced vegetables (like bell peppers, carrots, and cabbage) and stir-fry for 2-3 minutes until slightly tender.",
-    "Push the vegetables to one side of the pan, then add the cooked noodles.",
-    "Pour soy sauce, oyster sauce, and a dash of sesame oil over the noodles. Toss everything together until well combined.",
-    "Cook for another 2-3 minutes, letting the noodles absorb the sauce and become slightly crispy.",
-    "Add cooked protein (like chicken, shrimp, or tofu) if desired, and stir-fry for another minute.",
-    "Garnish with chopped green onions and sesame seeds before serving.",
-    "Serve hot and enjoy your homemade Chow Mein!",
-  ];
-  // dummyData.js
-  const dummyRecipe = [
-    {
-      text: "chowmin eat chowmin please kjdvksdfkkjsg,fdsmn",
-      paragraph:
-        "This is a classic chow mein recipe that's quick and easy to make. this was so authentic and tasty you must try this recipe at home with the ingredients that are commonly available at home",
-      rating: 4.5,
-    },
-    {
-      text: "Delicious Chow Mein",
-      paragraph:
-        "This is a classic chow mein recipe that's quick and easy to make. this was so authentic and tasty you must try this recipe at home with the ingredients that are commonly available at home",
-      rating: 4.5,
-    },
-    {
-      text: "Delicious Chow Mein",
-      paragraph:
-        "This is a classic chow mein recipe that's quick and easy to make.",
-      rating: 4.5,
-    },
-    {
-      text: "Delicious Chow Mein",
-      paragraph:
-        "This is a classic chow mein recipe that's quick and easy to make. this was so authentic and tasty you must try this recipe at home with the ingredients that are commonly available at home",
-      rating: 4.5,
-    },
-    {
-      text: "Delicious Chow Mein",
-      paragraph:
-        "This is a classic chow mein recipe that's quick and easy to make. this was so authentic and tasty you must try this recipe at home with the ingredients that are commonly available at home",
-      rating: 4.5,
-    },
-  ];
+  const { user } = useAuthContext();
+  const token = user?.token;
+
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      setLoading(true);
+      try {
+        const { data } = await axios.get(
+          `http://localhost:4000/api/recipe/${recipeId}`
+        );
+        setRecipe(data);
+        setLoading(false);
+      } catch (error) {
+        setError("error");
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecipe();
+  }, [recipeId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   const handelAddToMeal = () => {
     console.log("Added to meal");
   };
-  const handelSubmit = () => {
-    console.log("SUBMITED");
+
+  const handleSubmitReview = async () => {
+    console.log("Submitting review:", reviewText, reviewRating);
+    try {
+      if (!reviewText || reviewRating === 0) {
+        console.log("Please provide both a rating and a review.");
+        return;
+      }
+      const { data: reviewData } = await axios.post(
+        `http://localhost:4000/api/recipe/${recipeId}/reviews`,
+        {
+          user: user._id,
+          rating: reviewRating,
+          reviews: reviewText,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Pass the token for authentication
+          },
+        }
+      );
+
+      console.log("Review submitted:", reviewData);
+      setReviewText(""); // Clear the review text after submission
+      setReviewRating(0); // Clear the rating after submission
+    } catch (error) {
+      console.error(
+        "Error submitting review:",
+        error.response ? error.response.data : error.message
+      );
+    }
   };
 
   return (
     <div>
       <div className="w-full">
-        <h1 className="text-xl font-bold">chowmin</h1>
+        <h1 className="text-[40px] font-bold">{recipe.title}</h1>
         <div className="flex justify-between mt-[20px]">
           <div className="flex gap-10 normal-case">
             <div className="flex justify-center items-center">
               <img
-                src="./chowmin.jpg"
-                alt="recipe"
+                src={
+                  "https://hungerend.com/wp-content/uploads/2023/06/buff-keema-noodles.jpg"
+                }
+                alt=""
                 className="h-[25px] w-[25px] rounded-full mr-[6px]  "
               />
-              <h2>maddie</h2>
+              <h2>owner</h2>
             </div>
             <InfoItem icon={CalendarDays} text="July 20, 2024" />
             <InfoItem icon={MessageCircle} text="9" rotate="270" />
@@ -138,11 +137,17 @@ const Recipe = () => {
         <hr className="h-[2px] border border-stone-200 mt-[10px]" />
       </div>
       <div className="mt-6 flex flex-col lg:flex-row ">
-        <div className="w-full  ">
-          <img src="./chowmin.jpg" alt="Chowmin" className="w-full" />
+        <div className="w-full ">
+          <img
+            src={recipe.image}
+            alt="Chowmin"
+            className="w-full h-[700px] object-cover"
+          />
           <div className="mt-4 ">
             <div className="flex justify-between items-center ">
-              <h1 className="italic font-medium text-2xl">Cook Time: 45min</h1>
+              <h1 className="italic font-medium text-2xl">
+                Cook Time: {recipe.cookTime} min
+              </h1>
               <Button
                 onClick={handelAddToMeal}
                 className="bg-[#B55D51] text-white rounded-full hover:bg-[#B55D51]"
@@ -151,27 +156,18 @@ const Recipe = () => {
               </Button>
             </div>
             <div className="mt-5">
-              <h1>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic,
-                sunt atque. Ad dolores voluptatum saepe tenetur velit fugiat
-                aliquam tempore reiciendis nam exercitationem natus rem
-                provident, maxime eius, praesentium nobis! Lorem ipsum dolor
-                sit, amet consectetur adipisicing elit. Ipsum nesciunt
-                obcaecati, deserunt possimus enim ab maxime ad cumque. Obcaecati
-                corporis esse sed excepturi reiciendis natus harum, iste error
-                repellat. Aut.
-              </h1>
+              <h1>{recipe.description}</h1>
             </div>
             <div className="mb-3 mt-8 rounded-[8px] bg-white p-6 ">
               <h1 className="italic text-3xl font-medium">Instructions</h1>
               <ul className="">
-                {dummyIngredients.map((ingredient, index) => {
+                {recipe.instructions.map((instruction, index) => {
                   return (
                     <div key={index} className="flex items-center gap-3 m-3 ">
                       <div className="h-[20px] w-[20px] bg-[#B55D51] text-white rounded-[4px] justify-center flex">
                         <p className="text-sm font-medium">{index + 1}</p>
                       </div>
-                      <li key={index}>{ingredient}</li>
+                      <li key={index}>{instruction.text}</li>
                     </div>
                   );
                 })}
@@ -186,10 +182,13 @@ const Recipe = () => {
                 <span className="text-[#B55D51]">*</span>
               </p>
               <div className="flex gap-2">
-                {[1, 2, 3, 4, 5].map((star) => (
+                {[...Array(5)].map((_, i) => (
                   <Star
-                    key={star}
-                    className="text-yellow-400 h-[20px] w-[20px]"
+                    key={i}
+                    onClick={() => setReviewRating(i + 1)}
+                    className={`h-[20px] w-[20px] ${
+                      i < reviewRating ? "text-yellow-400" : "text-gray-400"
+                    } cursor-pointer`}
                   />
                 ))}
               </div>
@@ -200,12 +199,14 @@ const Recipe = () => {
                 <textarea
                   id="message"
                   rows="4"
+                  value={reviewText}
+                  onChange={(e) => setReviewText(e.target.value)}
                   className=" p-2.5 w-full text-sm text-gray-900 rounded-[10px] border outline-none scrollbar-hide"
                   placeholder="Write your thoughts here..."
                 ></textarea>
               </div>
               <Button
-                onClick={handelSubmit}
+                onClick={handleSubmitReview}
                 className="bg-[#B55D51] text-white rounded-[20px] hover:bg-[#B55D51]"
               >
                 Submit
@@ -215,7 +216,7 @@ const Recipe = () => {
                 <div className="m-2 flex flex-col ">
                   <h1 className="italic text-3xl font-medium">Reviews</h1>
                   <div className="flex  m-2 flex-col  p-4 ">
-                    {reviews.map((review, index) => (
+                    {recipe.reviews.map((review, index) => (
                       <div key={index} className=" flex flex-col  p-2">
                         <div className="flex gap-3  items-center  justify-between">
                           <div className="flex gap-3 items-center">
@@ -229,11 +230,11 @@ const Recipe = () => {
                             </p>
                           </div>
                           <p className="text-sm text-[#67727E]">
-                            {review.time}
+                            {review.createdAt}
                           </p>
                         </div>
                         <div className="ml-10 m-4">
-                          <p className="text-[#6B6B6B]">{review.review}</p>
+                          <p className="text-[#6B6B6B]">{review.reviews}</p>
                         </div>
                         <hr className="h-[2px] border border-stone-200 mt-[10px]" />
                       </div>
@@ -245,18 +246,18 @@ const Recipe = () => {
           </div>
         </div>
         <div className="w-full lg:w-1/2 ml-0 lg:ml-11 mt-8 lg:mt-0 ">
-          <Ingredients />
+          <Ingredients recipeIngredients={recipe.ingredients} />
           <div className="mt-8 text-4xl ">
             <h1 className="italic font-medium">Similar Recipe</h1>
             <div className="bg-white p-2 rounded-[10px] mt-[20px]">
-              {dummyRecipe.map((recipe, index) => (
+              {/* {dummyRecipe.map((recipe, index) => (
                 <SimilarRecipe
                   key={index}
                   text={recipe.text}
                   paragraph={recipe.paragraph}
                   rating={recipe.rating}
                 />
-              ))}
+              ))} */}
             </div>
           </div>
         </div>

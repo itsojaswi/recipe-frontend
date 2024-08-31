@@ -24,6 +24,7 @@ function App() {
             <Route path="/mealplanner" element={<MealPlanner />} />
             <Route path="/my-recipes" element={<MyRecipes />} />
             <Route path="/recipe" element={<Recipe />} />
+            <Route path="/recipe/:recipeId" element={<Recipe />} />
             <Route path="/add-recipe" element={<AddRecipe />} />
           </Route>
         </Route>

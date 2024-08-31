@@ -8,7 +8,6 @@ import {
   Search,
 } from "lucide-react";
 import { useAuthContext } from "../hooks/useAuthContext";
-import SearchRecipes from "./SearchBar"; // Import the SearchRecipes component
 
 const Sidebar = () => {
   const { user } = useAuthContext();
@@ -64,7 +63,6 @@ const Sidebar = () => {
 
   const [selected, setSelected] = useState(0);
   const [profileBorder, setProfileBorder] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
 
   const location = useLocation();
 
@@ -137,7 +135,7 @@ const Sidebar = () => {
                 alt="Profile"
                 className={`rounded-full mb-3 ${
                   profileBorder ? "border-4 border-[#B55D51]" : ""
-                } w-16 h-16 lg:w-20 lg:h-20`}
+                } w-16 h-16 lg:w-20 lg:h-20 sm:w-14 sm:h-14`}
               />
             </div>
             <div className="flex justify-center items-center mt-2">

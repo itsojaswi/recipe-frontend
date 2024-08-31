@@ -7,6 +7,10 @@ import "react-toastify/dist/ReactToastify.css";
 const RecipeCard = ({ recipe }) => {
   const { isFavorite, toggleFavorite } = useFavorite(recipe._id);
 
+  const rating =
+    recipe.reviews.reduce((acc, review) => acc + review.rating, 0) /
+    recipe.reviews.length;
+
   return (
     <div className="bg-white rounded-xl p-2 shadow-xl hover:scale-105 transition-transform duration-400">
       <Link to={`/recipe/${recipe._id}`}>
@@ -16,27 +20,27 @@ const RecipeCard = ({ recipe }) => {
           className="rounded-xl w-full h-48 object-cover mb-4"
         />
         <h3 className="text-xl font-semibold truncate">{recipe.title}</h3>
-        <div className="flex items-center text-gray-500 mt-2">
-          <img
-            src={recipe.image}
-            alt={recipe.name}
-            className="h-6 w-6 rounded-full object-cover"
-          />
-          <div className="flex justify-between w-full ml-2">
-            <div className="w-[120px]">
-              <p className="text-sm truncate">by {recipe.createdBy.username}</p>
-            </div>
-            <p className="text-sm">{recipe.cookTime} min</p>
-          </div>
-        </div>
       </Link>
+      <div className="flex items-center text-gray-500 mt-2">
+        <img
+          src={recipe.image}
+          alt={recipe.name}
+          className="h-6 w-6 rounded-full object-cover"
+        />
+        <div className="flex justify-between w-full ml-2">
+          <div className="w-[120px]">
+            <p className="text-sm truncate">by {recipe.createdBy.username}</p>
+          </div>
+          <p className="text-sm">{recipe.cookTime} min</p>
+        </div>
+      </div>
       <div className="flex justify-between items-center mt-2">
         <div className="flex items-center">
           {[...Array(5)].map((_, i) => (
             <svg
               key={i}
               className={`h-4 w-4 ${
-                i < recipe.rating ? "text-yellow-400" : "text-gray-300"
+                i < rating ? "text-yellow-400" : "text-gray-300"
               }`}
               fill="currentColor"
               viewBox="0 0 20 20"
