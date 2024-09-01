@@ -58,6 +58,14 @@ const MyRecipesPage = () => {
     }
   };
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error fetching recipes: {error.message}</p>;
+  }
+
   if (recipes.length === 0) {
     return (
       <div>
@@ -85,25 +93,19 @@ const MyRecipesPage = () => {
         </Link>
       </div>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p>Error: {error.message}</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 p-4 mt-[10px]">
-          {recipes.map((recipe) => (
-            <MyRecipeCard
-              key={recipe._id}
-              recipeId={recipe._id}
-              imageSrc={recipe.image}
-              title={recipe.title}
-              creator={recipe.createdBy.username}
-              onEdit={() => handleEdit(recipe._id)}
-              onDelete={() => handleDelete(recipe._id)}
-            />
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 p-4 mt-[10px]">
+        {recipes.map((recipe) => (
+          <MyRecipeCard
+            key={recipe._id}
+            recipeId={recipe._id}
+            imageSrc={recipe.image}
+            title={recipe.title}
+            creator={recipe.createdBy.username}
+            onEdit={() => handleEdit(recipe._id)}
+            onDelete={() => handleDelete(recipe._id)}
+          />
+        ))}
+      </div>
     </div>
   );
 };

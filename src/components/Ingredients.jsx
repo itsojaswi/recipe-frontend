@@ -27,8 +27,10 @@ const Ingredients = ({ recipeIngredients }) => {
               onChange={() => handleCheckboxChange(index)}
               className="m-2 accent-[#B55D51]"
             />
-            <span>{item.name}</span>
-            <span>{item.quantity}</span>
+            <span>
+              {item.quantity}, {item.name}
+            </span>
+            <span></span>
           </li>
         ))}
       </ul>

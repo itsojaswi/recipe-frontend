@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   NotebookPen,
@@ -8,6 +8,7 @@ import {
   Search,
 } from "lucide-react";
 import { useAuthContext } from "../hooks/useAuthContext";
+import SearchRecipes from "./SearchBar";
 
 const Sidebar = () => {
   const { user } = useAuthContext();
@@ -51,18 +52,19 @@ const Sidebar = () => {
     },
     {
       text: "Search",
-      link: "", // Updated to prevent page refresh
+      link: "#", // Updated to prevent page refresh
       icon: (
         <span className="icon">
           <Search />
         </span>
       ),
-      // action: () => setIsModalOpen(false),
+      action: () => setIsModalOpen(true), // Open the modal when clicked
     },
   ];
 
   const [selected, setSelected] = useState(0);
   const [profileBorder, setProfileBorder] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
 
   const location = useLocation();
 
@@ -115,7 +117,7 @@ const Sidebar = () => {
                 onClick={() => handleItemClick(index, item)}
               >
                 {item.icon}
-                <span className="mt-2  text-sm hidden lg:block">
+                <span className="mt-2 text-sm hidden lg:block">
                   {item.text}
                 </span>
               </Link>
@@ -129,7 +131,7 @@ const Sidebar = () => {
             className="text-[#B55D51] mt-1 text-sm font-medium"
             onClick={() => handleItemClick(-1, {}, true)}
           >
-            <div className="flex  justify-center">
+            <div className="flex justify-center">
               <img
                 src="./avatar.png"
                 alt="Profile"
@@ -151,7 +153,7 @@ const Sidebar = () => {
       </div>
 
       {/* Include the SearchRecipes component */}
-      {/* <SearchRecipes isOpen={isModalOpen} setIsOpen={setIsModalOpen} /> */}
+      <SearchRecipes isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
     </div>
   );
 };

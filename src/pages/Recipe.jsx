@@ -3,11 +3,9 @@ import { FaRegBookmark } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import Ingredients from "../components/Ingredients";
 import SimilarRecipe from "../components/SimilarRecipe";
-import { Input } from "@/components/ui/input";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { set } from "react-hook-form";
 import { useAuthContext } from "@/hooks/useAuthContext";
 
 const InfoItem = ({ icon: Icon, text, rotate }) => (
@@ -65,13 +63,12 @@ const Recipe = () => {
   };
 
   const handleSubmitReview = async () => {
-    console.log("Submitting review:", reviewText, reviewRating);
     try {
       if (!reviewText || reviewRating === 0) {
         console.log("Please provide both a rating and a review.");
         return;
       }
-      const { data: reviewData } = await axios.post(
+      const { data: recipeData } = await axios.post(
         `http://localhost:4000/api/recipe/${recipeId}/reviews`,
         {
           user: user._id,
@@ -85,7 +82,11 @@ const Recipe = () => {
         }
       );
 
-      console.log("Review submitted:", reviewData);
+      setRecipe((prevRecipe) => ({
+        ...prevRecipe,
+        reviews: recipeData.reviews,
+      }));
+
       setReviewText(""); // Clear the review text after submission
       setReviewRating(0); // Clear the rating after submission
     } catch (error) {
@@ -95,6 +96,9 @@ const Recipe = () => {
       );
     }
   };
+  const averageRating =
+    recipe.reviews.reduce((acc, review) => acc + review.rating, 0) /
+    recipe.reviews.length;
 
   return (
     <div>
@@ -116,13 +120,19 @@ const Recipe = () => {
             <InfoItem icon={MessageCircle} text="9" rotate="270" />
             <InfoItem icon={FaRegBookmark} text="9" />
             <div className="flex justify-center items-center gap-[2px]">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <Star
-                  key={star}
-                  className="text-yellow-400 h-[16px] w-[16px]"
-                />
+              {[...Array(5)].map((_, i) => (
+                <svg
+                  key={i}
+                  className={`h-4 w-4 ${
+                    i < averageRating ? "text-yellow-400" : "text-gray-300"
+                  }`}
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9.049 2.927C9.45 2.104 10.55 2.104 10.951 2.927l1.7 3.429 3.788.584c.842.13 1.175 1.16.568 1.755l-2.739 2.67.646 3.772c.144.84-.74 1.487-1.488 1.09L10 14.347l-3.215 1.69c-.749.396-1.633-.251-1.488-1.09l.646-3.772-2.739-2.67c-.607-.595-.274-1.625.568-1.755l3.788-.584 1.7-3.429z" />
+                </svg>
               ))}
-              <h1 className="ml-[6px]">1/5</h1>
+              <h1 className="ml-[6px]">{Math.ceil(averageRating)}/5</h1>
             </div>
           </div>
           <div>
@@ -140,7 +150,7 @@ const Recipe = () => {
         <div className="w-full ">
           <img
             src={recipe.image}
-            alt="Chowmin"
+            alt={recipe.title}
             className="w-full h-[700px] object-cover"
           />
           <div className="mt-4 ">
@@ -209,7 +219,7 @@ const Recipe = () => {
                 onClick={handleSubmitReview}
                 className="bg-[#B55D51] text-white rounded-[20px] hover:bg-[#B55D51]"
               >
-                Submit
+                Submit Review
               </Button>
               <div className="w-full">
                 <hr className="h-1px border border-stone-200 w-full " />
@@ -248,7 +258,7 @@ const Recipe = () => {
         <div className="w-full lg:w-1/2 ml-0 lg:ml-11 mt-8 lg:mt-0 ">
           <Ingredients recipeIngredients={recipe.ingredients} />
           <div className="mt-8 text-4xl ">
-            <h1 className="italic font-medium">Similar Recipe</h1>
+            <h1 className="italic font-medium">More like this</h1>
             <div className="bg-white p-2 rounded-[10px] mt-[20px]">
               {/* {dummyRecipe.map((recipe, index) => (
                 <SimilarRecipe

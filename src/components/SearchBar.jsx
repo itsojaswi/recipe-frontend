@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Search } from "lucide-react";
-import Modal from "./ui/modal";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+} from "./ui/dialog";
 import { RxCross2 } from "react-icons/rx";
 
-const SearchRecipes = (isOpen, setIsOpen) => {
+const SearchRecipes = ({ isOpen, setIsOpen }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([
-    "Pasta",
-    "Pizza",
-    "Burger",
-    "Salad",
-    "Soup",
-  ]);
+  const [searchResults, setSearchResults] = useState(["Pasta"]);
 
   const handleRemoveItem = (itemToRemove) => {
     setSearchResults(searchResults.filter((item) => item !== itemToRemove));
@@ -22,9 +22,16 @@ const SearchRecipes = (isOpen, setIsOpen) => {
   );
 
   return (
-    <div>
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <div className="relative w-full max-w-xl rounded-lg p-4 bg-white">
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogContent className="w-full max-w-xl p-4 bg-white">
+        <div className="mb-[10px]">
+          <DialogClose asChild>
+            <button className="absolute top-4 right-4 text-gray-500 border hover:text-gray-800">
+              <RxCross2 className="w-5 h-5" />
+            </button>
+          </DialogClose>
+        </div>
+        <div className="relative w-full ">
           <div className="flex items-center border-b pb-2">
             <input
               type="text"
@@ -52,8 +59,8 @@ const SearchRecipes = (isOpen, setIsOpen) => {
             ))}
           </ul>
         </div>
-      </Modal>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

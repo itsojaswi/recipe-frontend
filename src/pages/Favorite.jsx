@@ -57,12 +57,12 @@ const Favorite = () => {
     }
   };
 
-  if (favorites.length === 0) {
-    return <p>No Favorites Found</p>;
-  }
-
   if (loading) {
     return <p>Loading...</p>;
+  }
+
+  if (favorites.length === 0) {
+    return <p>No Favorites Found</p>;
   }
 
   if (error) {
@@ -76,26 +76,33 @@ const Favorite = () => {
         <hr className="h-[2px] border border-stone-200 mt-[20px] mb-[20px]" />
       </div>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>Error: {error.message}</p>
-        ) : (
-          favorites.map((favorite) => {
-            const recipe = favorite.recipeId;
-            return (
-              <FavoriteCard
-                key={recipe._id}
-                recipeid={recipe._id}
-                imageSrc={recipe.image}
-                title={recipe.title}
-                rating={recipe.rating}
-                creator={recipe.createdBy.username}
-                onRemoveFavorite={handleRemoveFavorite}
-              />
-            );
-          })
-        )}
+        {favorites.map((favorite) => {
+          const recipe = favorite.recipeId;
+
+          // Ensure recipe.reviews exists and is an array
+          const ratings =
+            recipe.reviews && Array.isArray(recipe.reviews)
+              ? recipe.reviews.map((review) => review.rating)
+              : [];
+
+          const averageRating =
+            ratings.length > 0
+              ? ratings.reduce((sum, rating) => sum + rating, 0) /
+                ratings.length
+              : 0;
+
+          return (
+            <FavoriteCard
+              key={recipe._id}
+              recipeid={recipe._id}
+              imageSrc={recipe.image}
+              title={recipe.title}
+              rating={averageRating}
+              creator={recipe.createdBy.username}
+              onRemoveFavorite={handleRemoveFavorite}
+            />
+          );
+        })}
       </div>
     </div>
   );
