@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { toast } from "sonner";
 
 export const useFavorite = (recipeId) => {
   const { user } = useAuthContext();
@@ -52,6 +53,13 @@ export const useFavorite = (recipeId) => {
 
       if (response.status === 200 || response.status === 201) {
         setIsFavorite(response.data.message.includes("added"));
+        toast.success(response.data.message, {
+          style: {
+            borderRadius: "10px",
+            background: "#BD6E64",
+            color: "white",
+          },
+        });
       } else {
         console.error("Failed to toggle favorite:", response.data.message);
         setIsFavorite((prev) => !prev);

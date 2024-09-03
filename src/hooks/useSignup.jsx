@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { dispatch } = useAuthContext();
+  const navigate = useNavigate();
 
   const signUp = async (username, email, password, confirmPassword) => {
     setIsLoading(true);
@@ -27,19 +29,14 @@ export const useSignup = () => {
       });
 
       const json = await response.json();
+      console.log(json);
 
       if (response.ok && json.token) {
-        // Save the user data to local storage, including the username
-        const userData = {
-          email: json.email,
-          token: json.token,
-          username: json.username, // Make sure the username is saved
-        };
-
-        localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("user", JSON.stringify(json));
 
         // Update the context with the registered user
-        dispatch({ type: "REGISTER", payload: userData });
+        dispatch({ type: "REGISTER", payload: json });
+        navigate("/recipes");
       } else {
         setError(json.error || "Signup failed");
       }

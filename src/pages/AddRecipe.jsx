@@ -63,12 +63,24 @@ const AddRecipe = () => {
       );
       if (response.status === 200) {
         console.log("Recipe submitted successfully!");
-        toast.success("Recipe submitted successfully!");
+        toast.success("Recipe submitted successfully!", {
+          style: {
+            borderRadius: "10px border border-black",
+            background: "#BD6E64",
+            color: "white",
+          },
+        });
         navigate(-1);
         // Add any additional logic here after successful submission
       } else {
         setError("Failed to submit recipe");
-        toast.error("Failed to submit recipe");
+        toast.error("Failed to submit recipe", {
+          style: {
+            borderRadius: "10px border border-black",
+            background: "#BD6E64",
+            color: "white",
+          },
+        });
         // Handle error case here
       }
     } catch (error) {
@@ -78,9 +90,9 @@ const AddRecipe = () => {
       ) {
         toast.error("All fields must be filled.", {
           style: {
-            borderRadius: "10px",
-            background: "#333",
-            color: "#BD6E64",
+            borderRadius: "10px border border-black",
+            background: "#BD6E64",
+            color: "white",
           },
         });
       }

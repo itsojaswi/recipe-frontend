@@ -7,12 +7,13 @@ import { Link } from "react-router-dom";
 
 const MyRecipesPage = () => {
   const { user } = useAuthContext();
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchRecipes = async () => {
+      setLoading(true);
       const token = user?.token;
 
       if (!user || !token) {
@@ -30,7 +31,7 @@ const MyRecipesPage = () => {
         );
         setRecipes(response.data);
       } catch (error) {
-        console.error("Error fetching recipes:", error);
+        console.error("Error fetching recipes:", error.response.status);
         setError(error);
       } finally {
         setLoading(false);
@@ -62,21 +63,35 @@ const MyRecipesPage = () => {
     return <p>Loading...</p>;
   }
 
-  if (error) {
-    return <p>Error fetching recipes: {error.message}</p>;
-  }
-
-  if (recipes.length === 0) {
+  if (recipes && recipes.length === 0) {
     return (
-      <div>
-        <h1>no recipes found</h1>{" "}
+      <div className="flex justify-center items-center flex-col m-auto">
+        <h1 className="font-semibold text-xl">No recipes found</h1>
         <Link to={"/add-recipe"}>
-          <Button className="h-[20px] bg-red-200 hover:bg-red-200 p-4 text-lg rounded-[10px] mt-[15px]">
+          <Button className="text-white h-[20px] bg-[#B55D51] hover:bg-[#B55D51] p-4 text-lg rounded-[10px] mt-[15px]">
             Add Recipe
           </Button>
         </Link>
       </div>
     );
+  }
+
+  if (error && error.response.status === 404) {
+    // return <p>Error fetching recipes: {error.message}</p>;
+    return (
+      <div className="flex justify-center items-center flex-col m-auto">
+        <h1 className="font-semibold text-xl">No recipes found</h1>
+        <Link to={"/add-recipe"}>
+          <Button className="text-white h-[20px] bg-[#B55D51] hover:bg-[#B55D51] p-4 text-lg rounded-[10px] mt-[15px]">
+            Add Recipe
+          </Button>
+        </Link>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p>jfdknf</p>;
   }
 
   return (
@@ -87,24 +102,25 @@ const MyRecipesPage = () => {
       <hr className="h-[2px] border border-stone-200 mt-[20px] " />
       <div className="flex justify-end">
         <Link to={"/add-recipe"}>
-          <Button className="h-[20px] bg-red-200 hover:bg-red-200 p-4 text-lg rounded-[10px] mt-[15px]">
+          <Button className="text-white h-[20px] bg-[#B55D51] hover:bg-[#B55D51] p-4 text-lg rounded-[10px] mt-[15px]">
             Add Recipe
           </Button>
         </Link>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 p-4 mt-[10px]">
-        {recipes.map((recipe) => (
-          <MyRecipeCard
-            key={recipe._id}
-            recipeId={recipe._id}
-            imageSrc={recipe.image}
-            title={recipe.title}
-            creator={recipe.createdBy.username}
-            onEdit={() => handleEdit(recipe._id)}
-            onDelete={() => handleDelete(recipe._id)}
-          />
-        ))}
+        {recipes &&
+          recipes.map((recipe) => (
+            <MyRecipeCard
+              key={recipe._id}
+              recipeId={recipe._id}
+              imageSrc={recipe.image}
+              title={recipe.title}
+              creator={recipe.createdBy.username}
+              onEdit={() => handleEdit(recipe._id)}
+              onDelete={() => handleDelete(recipe._id)}
+            />
+          ))}
       </div>
     </div>
   );

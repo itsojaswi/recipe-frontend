@@ -1,7 +1,7 @@
 import { useFavorite } from "../hooks/useFavorite";
 import { Link } from "react-router-dom";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "sonner";
 import "react-toastify/dist/ReactToastify.css";
 
 const RecipeCard = ({ recipe }) => {
@@ -34,8 +34,8 @@ const RecipeCard = ({ recipe }) => {
           <p className="text-sm">{recipe.cookTime} min</p>
         </div>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        <div className="flex items-center">
+      <div className="flex justify-between items-start mt-2">
+        <div className="flex ">
           {[...Array(5)].map((_, i) => (
             <svg
               key={i}

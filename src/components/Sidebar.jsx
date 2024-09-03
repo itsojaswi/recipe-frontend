@@ -9,6 +9,10 @@ import {
 } from "lucide-react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import SearchRecipes from "./SearchBar";
+import { LuLogOut } from "react-icons/lu";
+import { useLogout } from "../hooks/useLogout";
+import { Button } from "./ui/button";
+import { Dialog, DialogContent, DialogTitle } from "../components/ui/dialog";
 
 const Sidebar = () => {
   const { user } = useAuthContext();
@@ -63,38 +67,51 @@ const Sidebar = () => {
   ];
 
   const [selected, setSelected] = useState(0);
-  const [profileBorder, setProfileBorder] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
+  const [profileSelected, setProfileSelected] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { logout } = useLogout(); // Use the logout function
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const location = useLocation();
 
   useEffect(() => {
-    const index = items.findIndex((item) => {
-      // Check if the current path matches the link or specific paths (e.g., "Add Recipe")
-      return (
-        location.pathname === item.link ||
-        (item.link === "/my-recipes" && location.pathname === "/add-recipe")
-      );
-    });
-
-    if (index !== -1) {
-      setSelected(index);
+    if (location.pathname === "/profile") {
+      setProfileSelected(true);
+      setSelected(-1); // Ensure no item is selected
     } else {
-      setSelected(0);
+      setProfileSelected(false);
+      const index = items.findIndex((item) => {
+        return (
+          location.pathname === item.link ||
+          (item.link === "/my-recipes" && location.pathname === "/add-recipe")
+        );
+      });
+
+      if (index !== -1) {
+        setSelected(index);
+      } else {
+        setSelected(0);
+      }
     }
-  }, [location.pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, profileSelected]);
 
   const handleItemClick = (index, item, isProfile = false) => {
     if (isProfile) {
       setSelected(-1);
-      setProfileBorder(true);
+      setProfileSelected(true);
     } else {
       setSelected(index);
-      setProfileBorder(false);
+      setProfileSelected(false);
       if (item.action) {
-        item.action(); // Execute the custom action if defined
+        item.action();
       }
     }
+  };
+
+  const handleLogout = () => {
+    console.log("Logging out...");
+    logout();
   };
 
   return (
@@ -125,35 +142,81 @@ const Sidebar = () => {
           ))}
         </div>
         {/* Bottom Section */}
-        <div className="flex flex-col items-center border-t-2 border-[#D9D9D9] p-[50px]">
-          <Link
-            to=""
-            className="text-[#B55D51] mt-1 text-sm font-medium"
-            onClick={() => handleItemClick(-1, {}, true)}
-          >
-            <div className="flex justify-center">
-              <img
-                src="./avatar.png"
-                alt="Profile"
-                className={`rounded-full mb-3 ${
-                  profileBorder ? "border-4 border-[#B55D51]" : ""
-                } w-16 h-16 lg:w-20 lg:h-20 sm:w-14 sm:h-14`}
-              />
-            </div>
-            <div className="flex justify-center items-center mt-2">
-              <span className="font-semibold text-[#636363] lg:text-[20px] md:text-[15px] sm:text-sm">
-                {username}
-              </span>
-            </div>
-            <div className="flex justify-center items-center mt-2">
-              <p>Edit Profile</p>
-            </div>
-          </Link>
+        <div>
+          <div className="flex flex-col items-center border-t-2 border-[#D9D9D9] py-[20px]">
+            <Link
+              to="/profile"
+              className="text-[#B55D51] mt-1 text-sm font-medium"
+              onClick={() => handleItemClick(-1, {}, true)}
+            >
+              <div className="flex justify-center">
+                <img
+                  src="./avatar.png"
+                  alt="Profile"
+                  className={`rounded-full mb-3 ${
+                    profileSelected ? "border-4 border-[#B55D51]" : ""
+                  } w-16 h-16 lg:w-20 lg:h-20 sm:w-14 sm:h-14`}
+                />
+              </div>
+              <div className="flex justify-center items-center mt-2">
+                <span className="font-semibold text-[#636363] lg:text-[20px] md:text-[15px] sm:text-sm">
+                  {username}
+                </span>
+              </div>
+            </Link>
+          </div>
+          <div className=" bg-[#a39593] text-white flex justify-center items-center py-3  font-semibold">
+            <button
+              onClick={() => setIsDialogOpen(true)}
+              className="text-lg flex items-center"
+            >
+              <LuLogOut className="mr-2" />
+              Logout
+            </button>
+          </div>
         </div>
       </div>
-
       {/* Include the SearchRecipes component */}
       <SearchRecipes isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+
+      <Dialog
+        className=""
+        open={isDialogOpen}
+        onOpenChange={() => setIsDialogOpen(false)}
+      >
+        <DialogContent
+          style={{ borderRadius: "15px" }}
+          className="bg-white "
+          id="logout-dialog-content"
+        >
+          <img
+            className="w-20 h-20 m-auto "
+            src="https://media.tenor.com/FO7Yh3d7GqgAAAAj/bruh-moment.gif"
+            alt=""
+          />
+          <DialogTitle>
+            <p className="flex flex-col justify-center items-center font-semibold text-[20px]">
+              Are you sure you want to leave?
+            </p>
+          </DialogTitle>
+          <div className="flex justify-end space-x-2 mt-4 ">
+            <Button
+              style={{ borderRadius: "10px" }}
+              onClick={() => setIsDialogOpen(false)}
+              className="bg-gray-500 hover:bg-gray-500 text-white "
+            >
+              Stay
+            </Button>
+            <Button
+              style={{ borderRadius: "10px" }}
+              onClick={handleLogout}
+              className="bg-[#B55D51] hover:bg-[#B55D51] text-white rounded-sm"
+            >
+              Leave
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

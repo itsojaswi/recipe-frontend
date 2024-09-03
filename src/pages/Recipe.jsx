@@ -7,6 +7,36 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "@/hooks/useAuthContext";
+import { formatDistanceToNow } from "date-fns";
+import { format } from "date-fns";
+import { useFavorite } from "../hooks/useFavorite";
+
+const dummyRecipe = [
+  {
+    text: "Chicken Chowmein",
+    paragraph:
+      "A delicious and easy-to-make chicken chowmein recipe that you can make at home.",
+    rating: 4,
+  },
+  {
+    text: "Chicken Biryani",
+    paragraph:
+      "A classic chicken biryani recipe that is sure to impress your guests.",
+    rating: 5,
+  },
+  {
+    text: "Chicken Curry",
+    paragraph:
+      "A spicy and flavorful chicken curry recipe that is perfect for a weeknight dinner.",
+    rating: 4,
+  },
+  {
+    text: "Chicken Fried Rice",
+    paragraph:
+      "A quick and easy chicken fried rice recipe that is perfect for busy weeknights.",
+    rating: 4,
+  },
+];
 
 const InfoItem = ({ icon: Icon, text, rotate }) => (
   <div className="flex justify-center items-center">
@@ -32,7 +62,6 @@ const Recipe = () => {
 
   useEffect(() => {
     const fetchRecipe = async () => {
-      setLoading(true);
       try {
         const { data } = await axios.get(
           `http://localhost:4000/api/recipe/${recipeId}`
@@ -100,6 +129,8 @@ const Recipe = () => {
     recipe.reviews.reduce((acc, review) => acc + review.rating, 0) /
     recipe.reviews.length;
 
+  console.log(recipe);
+
   return (
     <div>
       <div className="w-full">
@@ -114,9 +145,13 @@ const Recipe = () => {
                 alt=""
                 className="h-[25px] w-[25px] rounded-full mr-[6px]  "
               />
-              <h2>owner</h2>
+              <h2>{recipe.createdBy.username}</h2>
             </div>
-            <InfoItem icon={CalendarDays} text="July 20, 2024" />
+            <InfoItem
+              icon={CalendarDays}
+              text={format(new Date(recipe.createdAt), "do MMMM, yyyy")}
+            />
+
             <InfoItem icon={MessageCircle} text="9" rotate="270" />
             <InfoItem icon={FaRegBookmark} text="9" />
             <div className="flex justify-center items-center gap-[2px]">
@@ -132,7 +167,7 @@ const Recipe = () => {
                   <path d="M9.049 2.927C9.45 2.104 10.55 2.104 10.951 2.927l1.7 3.429 3.788.584c.842.13 1.175 1.16.568 1.755l-2.739 2.67.646 3.772c.144.84-.74 1.487-1.488 1.09L10 14.347l-3.215 1.69c-.749.396-1.633-.251-1.488-1.09l.646-3.772-2.739-2.67c-.607-.595-.274-1.625.568-1.755l3.788-.584 1.7-3.429z" />
                 </svg>
               ))}
-              <h1 className="ml-[6px]">{Math.ceil(averageRating)}/5</h1>
+              <h1 className="ml-[6px]">{Math.ceil(averageRating) || 0}/5 </h1>
             </div>
           </div>
           <div>
@@ -240,7 +275,9 @@ const Recipe = () => {
                             </p>
                           </div>
                           <p className="text-sm text-[#67727E]">
-                            {review.createdAt}
+                            {formatDistanceToNow(new Date(review.createdAt), {
+                              addSuffix: true,
+                            })}
                           </p>
                         </div>
                         <div className="ml-10 m-4">
@@ -260,14 +297,14 @@ const Recipe = () => {
           <div className="mt-8 text-4xl ">
             <h1 className="italic font-medium">More like this</h1>
             <div className="bg-white p-2 rounded-[10px] mt-[20px]">
-              {/* {dummyRecipe.map((recipe, index) => (
+              {dummyRecipe.map((recipe, index) => (
                 <SimilarRecipe
                   key={index}
                   text={recipe.text}
                   paragraph={recipe.paragraph}
                   rating={recipe.rating}
                 />
-              ))} */}
+              ))}
             </div>
           </div>
         </div>

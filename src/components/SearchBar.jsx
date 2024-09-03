@@ -1,12 +1,6 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
-} from "./ui/dialog";
+import { Dialog, DialogContent, DialogClose } from "./ui/dialog";
 import { RxCross2 } from "react-icons/rx";
 
 const SearchRecipes = ({ isOpen, setIsOpen }) => {
@@ -24,9 +18,9 @@ const SearchRecipes = ({ isOpen, setIsOpen }) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="w-full max-w-xl p-4 bg-white">
-        <div className="mb-[10px]">
+        <div className="mb-[20px]">
           <DialogClose asChild>
-            <button className="absolute top-4 right-4 text-gray-500 border hover:text-gray-800">
+            <button className="absolute top-4 right-4 text-gray-500 rounded-[10px] hover:text-gray-800">
               <RxCross2 className="w-5 h-5" />
             </button>
           </DialogClose>
@@ -40,7 +34,7 @@ const SearchRecipes = ({ isOpen, setIsOpen }) => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Search className="text-gray-400 w-5 h-5" />
+            <Search className="text-gray-400 w-5 h-5  hover:text-gray-800" />
           </div>
           <ul className="mt-4">
             {filteredResults.map((item, index) => (

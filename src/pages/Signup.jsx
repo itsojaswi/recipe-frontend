@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Mail, User, Lock } from "lucide-react";
 import { useSignup } from "../hooks/useSignup";
+import { useLocation } from "react-router-dom";
 
 const Signup = () => {
   const [email, setEmail] = React.useState("");
@@ -10,6 +11,7 @@ const Signup = () => {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const { signUp, isLoading, error } = useSignup();
+  const location = useLocation();
 
   const handleSignup = async (e) => {
     e.preventDefault();

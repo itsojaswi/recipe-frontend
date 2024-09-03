@@ -14,7 +14,6 @@ const Favorite = () => {
       const token = user?.token;
 
       if (!user || !token) {
-        console.error("Token is not available");
         setLoading(false);
         return;
       }
@@ -25,9 +24,10 @@ const Favorite = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setFavorites(response.data);
+        setFavorites(
+          response.data.filter((favorite) => favorite.recipeId._id == null)
+        );
       } catch (error) {
-        console.error("Error fetching recipes:", error);
         setError(error);
       } finally {
         setLoading(false);
@@ -56,6 +56,8 @@ const Favorite = () => {
       setError(error);
     }
   };
+
+  console.log(favorites);
 
   if (loading) {
     return <p>Loading...</p>;

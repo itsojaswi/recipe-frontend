@@ -22,6 +22,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "axios": "^1.7.4",
     "class-variance-authority": "^0.7.0",
+    "date-fns": "^3.6.0",
     "framer-motion": "^11.3.21",
     "lucide-react": "^0.427.0",
     "next-themes": "^0.3.0",

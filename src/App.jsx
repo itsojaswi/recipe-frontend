@@ -9,6 +9,7 @@ import MealPlanner from "./pages/MealPlanner";
 import AddRecipe from "./pages/AddRecipe";
 import PrivateRoute from "./routes/PrivateRoute";
 import MyRecipes from "./pages/MyRecipes";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/recipe" element={<Recipe />} />
             <Route path="/recipe/:recipeId" element={<Recipe />} />
             <Route path="/add-recipe" element={<AddRecipe />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
         </Route>
       </Routes>
