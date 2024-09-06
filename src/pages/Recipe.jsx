@@ -10,6 +10,7 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import { formatDistanceToNow } from "date-fns";
 import { format } from "date-fns";
 import { useFavorite } from "../hooks/useFavorite";
+import { toast } from "sonner";
 
 const dummyRecipe = [
   {
@@ -94,7 +95,13 @@ const Recipe = () => {
   const handleSubmitReview = async () => {
     try {
       if (!reviewText || reviewRating === 0) {
-        console.log("Please provide both a rating and a review.");
+        toast.error("Please provide both rating and a review.", {
+          style: {
+            borderRadius: "10px",
+            background: "#BD6E64",
+            color: "white",
+          },
+        });
         return;
       }
       const { data: recipeData } = await axios.post(
@@ -102,7 +109,7 @@ const Recipe = () => {
         {
           user: user._id,
           rating: reviewRating,
-          reviews: reviewText,
+          reviewText,
         },
         {
           headers: {
@@ -118,6 +125,8 @@ const Recipe = () => {
 
       setReviewText(""); // Clear the review text after submission
       setReviewRating(0); // Clear the rating after submission
+
+      console.log("Review submitted successfully!", recipeData);
     } catch (error) {
       console.error(
         "Error submitting review:",
@@ -125,11 +134,12 @@ const Recipe = () => {
       );
     }
   };
+
   const averageRating =
     recipe.reviews.reduce((acc, review) => acc + review.rating, 0) /
     recipe.reviews.length;
 
-  console.log(recipe);
+  console.log(recipe.reviews);
 
   return (
     <div>
@@ -271,7 +281,7 @@ const Recipe = () => {
                               className="w-[30px] h-[30px] rounded-full"
                             />
                             <p className="text-[20px] text-[#494747] font-medium">
-                              {review.name}
+                              {review.user?.username}
                             </p>
                           </div>
                           <p className="text-sm text-[#67727E]">
@@ -281,7 +291,7 @@ const Recipe = () => {
                           </p>
                         </div>
                         <div className="ml-10 m-4">
-                          <p className="text-[#6B6B6B]">{review.reviews}</p>
+                          <p className="text-[#6B6B6B]">{review.reviewText}</p>
                         </div>
                         <hr className="h-[2px] border border-stone-200 mt-[10px]" />
                       </div>
