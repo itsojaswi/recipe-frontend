@@ -9,10 +9,10 @@ const Favorite = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Fetch favorites when the component mounts or when the user changes
   useEffect(() => {
     const fetchFavorites = async () => {
       const token = user?.token;
-
       if (!user || !token) {
         setLoading(false);
         return;
@@ -24,50 +24,86 @@ const Favorite = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+
         setFavorites(
-          response.data.filter((favorite) => favorite.recipeId._id == null)
+          response.data.filter(
+            (favorite) => favorite.recipeId && favorite.recipeId._id
+          )
         );
       } catch (error) {
-        setError(error);
+        console.error("Error fetching favorites:", error);
+        setError("Error fetching favorites. Please try again.");
       } finally {
         setLoading(false);
       }
     };
 
-    if (user) {
-      fetchFavorites();
-    }
+    fetchFavorites();
   }, [user]);
 
   const handleRemoveFavorite = async (recipeId) => {
     const token = user?.token;
-
     if (!user || !token) {
       console.error("Token is not available");
       return;
     }
 
+    // Optimistically update the UI
+    const updatedFavorites = favorites.filter(
+      (favorite) => favorite.recipeId._id !== recipeId
+    );
+    setFavorites(updatedFavorites);
+
     try {
-      setFavorites(
-        favorites.filter((favorite) => favorite.recipeId._id !== recipeId)
-      );
+      await axios.delete(`http://localhost:4000/api/favorite/${recipeId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     } catch (error) {
-      console.error("Error removing favorite:", error);
-      setError(error);
+      console.log("");
+
+      // Fetch the updated list of favorites even if the deletion fails
+      fetchFavorites();
     }
   };
 
-  console.log(favorites);
+  // Function to fetch favorites
+  const fetchFavorites = async () => {
+    const token = user?.token;
+    if (!user || !token) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.get("http://localhost:4000/api/favorite", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setFavorites(
+        response.data.filter(
+          (favorite) => favorite.recipeId && favorite.recipeId._id
+        )
+      );
+    } catch (error) {
+      console.log("");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <p>Loading...</p>;
   }
 
-  if (favorites.length === 0) {
-    return <p>No Favorites Found</p>;
+  if (error) {
+    return <p>{error}</p>;
   }
 
-  if (error) {
+  if (!loading && favorites.length === 0) {
     return <p>No Favorites Found</p>;
   }
 
@@ -81,7 +117,6 @@ const Favorite = () => {
         {favorites.map((favorite) => {
           const recipe = favorite.recipeId;
 
-          // Ensure recipe.reviews exists and is an array
           const ratings =
             recipe.reviews && Array.isArray(recipe.reviews)
               ? recipe.reviews.map((review) => review.rating)
