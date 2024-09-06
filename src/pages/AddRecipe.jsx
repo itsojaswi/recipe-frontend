@@ -192,17 +192,6 @@ const AddRecipe = () => {
                 placeholder="e.g., italian, healthy"
                 {...register("tags")}
                 className="pl-6 py-3 pr-4 border border-[#E3E3E3] rounded-[18px] h-[3rem] bg-[#F5F5F5] w-full outline-none"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    const tagInput = e.target.value;
-                    if (tagInput) {
-                      const tags = getValues("tags");
-                      setValue("tags", [...tags, tagInput]);
-                      setValue("tagInput", "");
-                    }
-                  }
-                }}
               />
             </div>
 
