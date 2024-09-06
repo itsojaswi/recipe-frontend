@@ -10,6 +10,7 @@ import AddRecipe from "./pages/AddRecipe";
 import PrivateRoute from "./routes/PrivateRoute";
 import MyRecipes from "./pages/MyRecipes";
 import Profile from "./pages/Profile";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
             <Route path="/recipe" element={<Recipe />} />
             <Route path="/recipe/:recipeId" element={<Recipe />} />
             <Route path="/add-recipe" element={<AddRecipe />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/Search" element={<Search />} />
           </Route>
         </Route>
       </Routes>
