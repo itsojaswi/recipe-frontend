@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogTitle } from "../components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogHeader,
+  DialogDescription,
+  DialogTrigger,
+} from "../components/ui/dialog";
 import { Button } from "../components/ui/button";
 import { toast } from "sonner";
 
@@ -31,51 +38,42 @@ const MyRecipe = ({ imageSrc, title, onEdit, onDelete, recipeId }) => {
           <button onClick={onEdit} className="">
             <FaEdit />
           </button>
-          <button onClick={() => setIsDialogOpen(true)} className="">
-            <FaTrash />
-          </button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <button className="">
+                <FaTrash />
+              </button>
+            </DialogTrigger>
+            <DialogContent
+              style={{ borderRadius: "10px" }}
+              className="bg-white"
+            >
+              <DialogHeader>
+                <DialogTitle>
+                  <p className="flex flex-col justify-center items-center font-semibold">
+                    Are you sure you want to delete this recipe?
+                  </p>
+                </DialogTitle>
+
+                <DialogDescription className="bg-white  text-1xl font-semibold"></DialogDescription>
+              </DialogHeader>
+              <div className="flex justify-end mt-4">
+                <button
+                  onClick={handleDelete}
+                  className=" px-4 py-2  mr-2  bg-[#B55D51] text-white rounded-md"
+                >
+                  Delete
+                </button>
+                <DialogTrigger asChild>
+                  <button className="px-4 py-2 bg-gray-300 rounded-md">
+                    Cancel
+                  </button>
+                </DialogTrigger>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
-
-      {/* Confirmation Dialog */}
-      <Dialog
-        className=""
-        open={isDialogOpen}
-        onOpenChange={() => setIsDialogOpen(false)}
-      >
-        <DialogContent
-          style={{ borderRadius: "15px" }}
-          className="bg-white"
-          id="recipe-dialog-content"
-        >
-          <img
-            className="w-11 h-11 m-auto "
-            src="https://media.tenor.com/A4iBZ-oMD-oAAAAM/thinking-emoji.gif"
-            alt=""
-          />
-          <DialogTitle>
-            <p className="flex flex-col justify-center items-center font-semibold text-[20px]">
-              Are you sure you want to delete this recipe?
-            </p>
-          </DialogTitle>
-          <div className="flex justify-end space-x-2 mt-4">
-            <Button
-              style={{ borderRadius: "10px" }}
-              onClick={() => setIsDialogOpen(false)}
-              className="bg-gray-500 hover:bg-gray-500 text-white "
-            >
-              Cancel
-            </Button>
-            <Button
-              style={{ borderRadius: "10px" }}
-              onClick={handleDelete}
-              className="bg-[#B55D51] hover:bg-[#B55D51] text-white rounded-sm"
-            >
-              Delete
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

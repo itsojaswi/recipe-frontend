@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import { toast } from "sonner";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const RecipeCard = ({ recipe }) => {
   const { isFavorite, toggleFavorite } = useFavorite(recipe._id);
@@ -10,6 +11,8 @@ const RecipeCard = ({ recipe }) => {
   const rating =
     recipe.reviews.reduce((acc, review) => acc + review.rating, 0) /
     recipe.reviews.length;
+
+  const userId = recipe.createdBy._id;
 
   return (
     <div className="bg-white rounded-xl p-2 shadow-xl hover:scale-105 transition-transform duration-400">
@@ -22,11 +25,13 @@ const RecipeCard = ({ recipe }) => {
         <h3 className="text-xl font-semibold truncate">{recipe.title}</h3>
       </Link>
       <div className="flex items-center text-gray-500 mt-2">
-        <img
-          src={recipe.image}
-          alt={recipe.name}
-          className="h-6 w-6 rounded-full object-cover"
-        />
+        <Link to={`/profile/${userId}`}>
+          <img
+            src={recipe.image}
+            alt={recipe.name}
+            className="h-6 w-6 rounded-full object-cover"
+          />
+        </Link>
         <div className="flex justify-between w-full ml-2">
           <div className="w-[120px]">
             <p className="text-sm truncate">by {recipe.createdBy.username}</p>
