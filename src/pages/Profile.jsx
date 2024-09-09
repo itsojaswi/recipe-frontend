@@ -72,12 +72,14 @@ const Profile = () => {
     fetchUser();
   }, [user, token, setValue, id]);
 
-  // Function to handle bio and avatar update
-  const updateProfile = async () => {
+  // Function to handle profile update
+  const updateProfile = async (data) => {
     try {
       const response = await axios.patch(
         `http://localhost:4000/user/${id}/profile`,
         {
+          username: data.username,
+          email: data.email,
           bio,
           avatar,
         },
@@ -208,6 +210,7 @@ const Profile = () => {
 
                         <div className="flex justify-end mt-4">
                           <button
+                            onClick={handleSubmit(onSubmit)}
                             type="submit"
                             className="px-4 py-2 bg-[#B55D51] text-white rounded-md"
                           >
