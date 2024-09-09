@@ -55,7 +55,7 @@ const SearchRecipes = () => {
   }, [searchQuery, user]);
 
   return (
-    <div className="p-4 w-full mx-auto h-full bg-white rounded shadow overflow-hidden">
+    <div className="p-4 w-full mx-auto h-full bg-white rounded shadow overflow-auto scrollbar-hide">
       <div className="relative w-full mb-4">
         <div className="flex items-center border-b pb-2 w-full">
           <input
@@ -71,6 +71,32 @@ const SearchRecipes = () => {
         {error && <p className="text-red-500">{error}</p>}
       </div>
 
+      <div className="mt-4">
+        <h2 className="font-bold text-xl">Users</h2>
+        <ul className="mt-2">
+          {userResults.length > 0 ? (
+            userResults.map((user, index) => (
+              <li
+                key={index}
+                className="flex justify-between items-center py-2 border-b"
+              >
+                <Link to={`/profile/${user._id}`}>
+                  <div className="flex items-center">
+                    <img
+                      src={user.avatar}
+                      alt={user.username}
+                      className="w-10 h-10 mr-2 rounded-full"
+                    ></img>
+                    <span>{user.username}</span>
+                  </div>
+                </Link>
+              </li>
+            ))
+          ) : (
+            <p>No users found</p>
+          )}
+        </ul>
+      </div>
       {/* Display results for recipes */}
       <div className="mt-4">
         <h2 className="font-bold text-xl">Recipes</h2>
@@ -95,24 +121,6 @@ const SearchRecipes = () => {
             ))
           ) : (
             <p>No recipes found</p>
-          )}
-        </ul>
-      </div>
-
-      <div className="mt-4">
-        <h2 className="font-bold text-xl">Users</h2>
-        <ul className="mt-2">
-          {userResults.length > 0 ? (
-            userResults.map((user, index) => (
-              <li
-                key={index}
-                className="flex justify-between items-center py-2 border-b"
-              >
-                <span>{user.username}</span>
-              </li>
-            ))
-          ) : (
-            <p>No users found</p>
           )}
         </ul>
       </div>
