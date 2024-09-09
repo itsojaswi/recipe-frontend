@@ -17,16 +17,16 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Production Stage
-FROM nginx:stable-alpine
+FROM nginx:alpine
+
+# Copy the custom nginx configuration file
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy built files from the build stage
 COPY --from=builder /home/node/app/dist /usr/share/nginx/html
 
 # Expose the application on port 80
 EXPOSE 80
-
-# # Set a non-root user for better security
-# USER nginx
 
 # Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
