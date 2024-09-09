@@ -1,9 +1,7 @@
 import { useFavorite } from "../hooks/useFavorite";
 import { Link } from "react-router-dom";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
-import { toast } from "sonner";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuthContext } from "../hooks/useAuthContext";
 
 const RecipeCard = ({ recipe }) => {
   const { isFavorite, toggleFavorite } = useFavorite(recipe._id);

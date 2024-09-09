@@ -3,7 +3,7 @@ import { FaRegBookmark } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import Ingredients from "../components/Ingredients";
 import SimilarRecipe from "../components/SimilarRecipe";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "@/hooks/useAuthContext";
@@ -147,23 +147,26 @@ const Recipe = () => {
         <h1 className="text-[40px] font-bold">{recipe.title}</h1>
         <div className="flex justify-between mt-[20px]">
           <div className="flex gap-10 normal-case">
-            <div className="flex justify-center items-center">
-              <img
-                src={
-                  "https://hungerend.com/wp-content/uploads/2023/06/buff-keema-noodles.jpg"
-                }
-                alt=""
-                className="h-[25px] w-[25px] rounded-full mr-[6px]  "
-              />
-              <h2>{recipe.createdBy.username}</h2>
-            </div>
+            <Link to={`/profile/${recipe.createdBy._id}`}>
+              <div className="flex justify-center items-center">
+                <img
+                  src={
+                    "https://hungerend.com/wp-content/uploads/2023/06/buff-keema-noodles.jpg"
+                  }
+                  alt=""
+                  className="h-[25px] w-[25px] rounded-full mr-[6px]  "
+                />
+                <h2>{recipe.createdBy.username}</h2>
+              </div>
+            </Link>
             <InfoItem
               icon={CalendarDays}
               text={format(new Date(recipe.createdAt), "do MMMM, yyyy")}
             />
 
-            <InfoItem icon={MessageCircle} text="9" rotate="270" />
-            <InfoItem icon={FaRegBookmark} text="9" />
+            {/* more functionality as needed */}
+            {/* <InfoItem icon={MessageCircle} text="9" rotate="270" />
+            <InfoItem icon={FaRegBookmark} text="9" /> */}
             <div className="flex justify-center items-center gap-[2px]">
               {[...Array(5)].map((_, i) => (
                 <svg
@@ -180,14 +183,16 @@ const Recipe = () => {
               <h1 className="ml-[6px]">{Math.ceil(averageRating) || 0}/5 </h1>
             </div>
           </div>
-          <div>
+
+          {/* add more functionality as needed */}
+          {/* <div>
             <Button className=" p-2 rounded-[5px] mr-2 border">
               <FaRegBookmark className="h-[20px] w-[20px] text-[#B55D51]" />
             </Button>
             <Button className=" p-2 rounded-[5px] ml-2 border">
               <Share2 className="h-[20px] w-[20px] text-[#B55D51]" />
             </Button>
-          </div>
+          </div> */}
         </div>
         <hr className="h-[2px] border border-stone-200 mt-[10px]" />
       </div>

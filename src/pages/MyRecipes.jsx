@@ -41,9 +41,28 @@ const MyRecipesPage = () => {
     fetchRecipes();
   }, [user]);
 
-  const handleEdit = (recipeId) => {
-    // Implement your edit logic here
-    console.log("Edit recipe with id:", recipeId);
+  const handleEdit = async (recipeId, updatedRecipeData) => {
+    try {
+      const response = await axios.patch(
+        `http://localhost:4000/api/recipe/${recipeId}`,
+        updatedRecipeData,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      // Assuming you have a function or state to update the recipe in your component
+      console.log("Updated Recipe data:", response.data);
+      setRecipes((prevRecipes) =>
+        prevRecipes.map((recipe) =>
+          recipe._id === recipeId ? response.data : recipe
+        )
+      );
+    } catch (error) {
+      console.error("Error editing recipe:", error);
+    }
   };
 
   const handleDelete = async (recipeId) => {
@@ -77,7 +96,6 @@ const MyRecipesPage = () => {
   }
 
   if (error && error.response.status === 404) {
-    // return <p>Error fetching recipes: {error.message}</p>;
     return (
       <div className="flex justify-center items-center flex-col m-auto">
         <h1 className="font-semibold text-xl">No recipes found</h1>
