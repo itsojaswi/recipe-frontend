@@ -58,13 +58,11 @@ const Sidebar = () => {
           <Search />
         </span>
       ),
-      action: () => openSearchDialog(),
     },
   ];
 
   const [selected, setSelected] = useState(0);
   const [profileSelected, setProfileSelected] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const location = useLocation();
 
@@ -101,14 +99,6 @@ const Sidebar = () => {
         item.action();
       }
     }
-  };
-
-  const openSearchDialog = () => {
-    setIsSearchOpen(true);
-  };
-
-  const closeSearchDialog = () => {
-    setIsSearchOpen(false);
   };
 
   return (

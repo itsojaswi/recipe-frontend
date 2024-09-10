@@ -9,7 +9,7 @@ const RecipeCard = ({ recipe }) => {
   const rating =
     recipe.reviews.reduce((acc, review) => acc + review.rating, 0) /
     recipe.reviews.length;
-
+  console.log(recipe);
   const userId = recipe.createdBy._id;
 
   return (
@@ -25,8 +25,8 @@ const RecipeCard = ({ recipe }) => {
       <div className="flex items-center text-gray-500 mt-2">
         <Link to={`/profile/${userId}`}>
           <img
-            src={recipe.image}
-            alt={recipe.name}
+            src={recipe.createdBy.profile.avatar}
+            alt={recipe.createdBy.username}
             className="h-6 w-6 rounded-full object-cover"
           />
         </Link>

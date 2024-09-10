@@ -1,5 +1,4 @@
-import { CalendarDays, MessageCircle, Star, Share2 } from "lucide-react";
-import { FaRegBookmark } from "react-icons/fa";
+import { CalendarDays, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Ingredients from "../components/Ingredients";
 import SimilarRecipe from "../components/SimilarRecipe";
@@ -9,7 +8,6 @@ import axios from "axios";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { formatDistanceToNow } from "date-fns";
 import { format } from "date-fns";
-import { useFavorite } from "../hooks/useFavorite";
 import { toast } from "sonner";
 
 const dummyRecipe = [
@@ -125,8 +123,6 @@ const Recipe = () => {
 
       setReviewText(""); // Clear the review text after submission
       setReviewRating(0); // Clear the rating after submission
-
-      console.log("Review submitted successfully!", recipeData);
     } catch (error) {
       console.error(
         "Error submitting review:",
@@ -139,8 +135,6 @@ const Recipe = () => {
     recipe.reviews.reduce((acc, review) => acc + review.rating, 0) /
     recipe.reviews.length;
 
-  console.log(recipe.reviews);
-
   return (
     <div>
       <div className="w-full">
@@ -150,9 +144,7 @@ const Recipe = () => {
             <Link to={`/profile/${recipe.createdBy._id}`}>
               <div className="flex justify-center items-center">
                 <img
-                  src={
-                    "https://hungerend.com/wp-content/uploads/2023/06/buff-keema-noodles.jpg"
-                  }
+                  src={recipe.createdBy.profile.avatar}
                   alt=""
                   className="h-[25px] w-[25px] rounded-full mr-[6px]  "
                 />
@@ -183,7 +175,6 @@ const Recipe = () => {
               <h1 className="ml-[6px]">{Math.ceil(averageRating) || 0}/5 </h1>
             </div>
           </div>
-
           {/* add more functionality as needed */}
           {/* <div>
             <Button className=" p-2 rounded-[5px] mr-2 border">

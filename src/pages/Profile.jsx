@@ -22,8 +22,6 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isOwner, setIsOwner] = useState(false);
-  const [bio, setBio] = useState("");
-  const [avatar, setAvatar] = useState("");
   const { user } = useAuthContext();
   const { logout } = useLogout();
   const token = user?.token;
@@ -74,14 +72,15 @@ const Profile = () => {
 
   // Function to handle profile update
   const updateProfile = async (data) => {
+    console.log("working");
     try {
       const response = await axios.patch(
-        `http://localhost:4000/user/${id}/profile`,
+        `http://localhost:4000/api/user/edit-profile/${id}`,
         {
           username: data.username,
           email: data.email,
-          bio,
-          avatar,
+          bio: data.bio,
+          avatar: data.avatar,
         },
         {
           headers: {
@@ -89,11 +88,14 @@ const Profile = () => {
           },
         }
       );
-      setUserDetail(response.data.data.user);
+      console.log("Updated profile data:", response.data.user);
+      setUserDetail(response.data.user);
     } catch (error) {
       console.error("Error updating profile:", error);
     }
   };
+
+  console.log("User details:", userDetail);
 
   const userBio =
     userDetail?.profile?.bio || "This user has not provided a bio.";
@@ -105,11 +107,6 @@ const Profile = () => {
   if (error) {
     return <p>Error: No user found</p>;
   }
-
-  const onSubmit = (data) => {
-    console.log("Updated user data:", data);
-    // You can make an API call to update user data here
-  };
 
   const handleLogout = () => {
     console.log("Logging out...");
@@ -131,7 +128,21 @@ const Profile = () => {
           />
         </div>
         <div className="h-[150px] w-[150px] rounded-full absolute top-[calc(15%)] left-[50px] z-10 border-4 border-white">
-          <img src="/avatar.png" alt="" className="w-full h-full" />
+          {userDetail?.profile?.avatar ? (
+            <img
+              src={userDetail.profile.avatar}
+              alt="User Avatar"
+              className="w-full h-full rounded-full"
+            />
+          ) : (
+            <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center">
+              <img
+                src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="
+                alt="User Avatar"
+                className="w-full h-full rounded-full"
+              />
+            </div>
+          )}
         </div>
         <div className="flex lg:flex-row h-full w-full md:flex-col sm:flex-col bg-white">
           <div className="flex flex-col lg:w-2/3 pl-[60px] pt-[100px] p-8 md:w-full sm:w-full">
@@ -158,7 +169,7 @@ const Profile = () => {
                         <div className="h-[100px] w-[100px] rounded-full">
                           <img
                             className="w-full h-full"
-                            src="/avatar.png"
+                            src={userDetail.profile.avatar}
                             alt=""
                           />
                         </div>
@@ -210,7 +221,6 @@ const Profile = () => {
 
                         <div className="flex justify-end mt-4">
                           <button
-                            onClick={handleSubmit(onSubmit)}
                             type="submit"
                             className="px-4 py-2 bg-[#B55D51] text-white rounded-md"
                           >
