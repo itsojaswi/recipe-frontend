@@ -19,8 +19,11 @@ RUN npm run build
 # Stage 2: Production Stage
 FROM nginx:alpine
 
-# Copy the custom nginx configuration file
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy the custom mime types file
+COPY custom_mime.types /etc/nginx/conf.d/custom_mime.types
+
+# Copy the custom nginx configuration file with a different name
+COPY nginx.conf /etc/nginx/conf.d/custom.conf
 
 # Copy built files from the build stage
 COPY --from=builder /home/node/app/dist /usr/share/nginx/html
