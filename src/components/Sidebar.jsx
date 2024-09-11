@@ -13,6 +13,8 @@ const Sidebar = () => {
   const { user } = useAuthContext();
   const userId = user ? user.userId : "";
   const username = user ? user.username : "name";
+  const avatar = user ? user.avatar : "/avatar.png";
+
   const items = [
     {
       text: "Recipes",
@@ -138,7 +140,7 @@ const Sidebar = () => {
             >
               <div className="flex justify-center">
                 <img
-                  src="./avatar.png"
+                  src={avatar}
                   alt="Profile"
                   className={`rounded-full mb-3 ${
                     profileSelected ? "border-4 border-[#B55D51]" : ""

@@ -9,7 +9,6 @@ const RecipeCard = ({ recipe }) => {
   const rating =
     recipe.reviews.reduce((acc, review) => acc + review.rating, 0) /
     recipe.reviews.length;
-  console.log(recipe);
   const userId = recipe.createdBy._id;
 
   return (

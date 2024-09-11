@@ -272,7 +272,7 @@ const Recipe = () => {
                         <div className="flex gap-3  items-center  justify-between">
                           <div className="flex gap-3 items-center">
                             <img
-                              src="./chowmin.jpg"
+                              src={review.user?.profile.avatar}
                               alt=""
                               className="w-[30px] h-[30px] rounded-full"
                             />

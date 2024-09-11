@@ -1,7 +1,6 @@
-import { React, useState } from "react";
+import { useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
 import { FaTrash } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
 import axios from "axios";
