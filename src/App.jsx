@@ -12,6 +12,7 @@ import MyRecipes from "./pages/MyRecipes";
 import Profile from "./pages/Profile";
 import Search from "./pages/Search";
 import EditRecipe from "./pages/EditRecipe";
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/Search" element={<Search />} />
           </Route>
+          <Route path="*" element={<ErrorPage />} />
         </Route>
       </Routes>
     </Router>
