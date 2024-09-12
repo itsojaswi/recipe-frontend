@@ -86,11 +86,9 @@ const MyRecipesPage = () => {
   if (recipes && recipes.length === 0) {
     return (
       <div className="flex justify-center items-center flex-col m-auto">
-        <h1 className="font-semibold text-xl">No recipes found</h1>
+        <h1 className="font-bold text-3xl ">No recipes yet</h1>
         <Link to={"/add-recipe"}>
-          <Button className="text-white h-[20px] bg-[#B55D51] hover:bg-[#B55D51] p-4 text-lg rounded-[10px] mt-[15px]">
-            Add Recipe
-          </Button>
+          <Button className="text-white h-[20px] bg-[#B55D51] hover:bg-[#B55D51] p-4 text-lg rounded-[10px] mt-[15px]"></Button>
         </Link>
       </div>
     );
@@ -99,7 +97,9 @@ const MyRecipesPage = () => {
   if (error && error.response.status === 404) {
     return (
       <div className="flex justify-center items-center flex-col m-auto">
-        <h1 className="font-semibold text-xl">No recipes found</h1>
+        <img src="/recipe.svg" alt="" className="w-[200px] h-[200px] " />
+
+        <h1 className="font-bold text-3xl">No recipes found</h1>
         <Link to={"/add-recipe"}>
           <Button className="text-white h-[20px] bg-[#B55D51] hover:bg-[#B55D51] p-4 text-lg rounded-[10px] mt-[15px]">
             Add Recipe

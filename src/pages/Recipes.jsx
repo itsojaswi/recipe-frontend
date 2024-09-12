@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import CategoryFilter from "../components/CategoryFilter";
 import RecipesList from "../components/RecipesList";
 import { MdOutlineFoodBank } from "react-icons/md";
-import { User } from "lucide-react";
 import { PiBowlFoodBold } from "react-icons/pi";
 import { GiOpenedFoodCan } from "react-icons/gi";
 import { IoFastFoodSharp } from "react-icons/io5";
@@ -59,6 +58,17 @@ const Recipes = () => {
   }
   if (error) {
     return <p>Error: {error.message}</p>;
+  }
+
+  if (!loading && recipes.length === 0) {
+    return (
+      <div className="h-full">
+        <div className="flex justify-center items-center w-full h-full border flex-col">
+          <img src="/recipe.svg" alt="" className="w-[200px] h-[200px]" />
+          <h1 className="text-2xl font-bold mt-3">No recipes found</h1>
+        </div>
+      </div>
+    );
   }
 
   // Filter recipes based on the selected category
