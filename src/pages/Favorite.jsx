@@ -105,7 +105,14 @@ const Favorite = () => {
   }
 
   if (!loading && favorites.length === 0) {
-    return <p>No Favorites Found</p>;
+    return (
+      <div className="h-full">
+        <div className="flex justify-center items-center w-full h-full border flex-col">
+          <img src="/favorite.svg" alt="" className="w-[200px] h-[200px]" />
+          <h1 className="text-2xl font-bold mt-3">No favorites yet</h1>
+        </div>
+      </div>
+    );
   }
 
   return (
