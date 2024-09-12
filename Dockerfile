@@ -22,6 +22,9 @@ FROM nginx:alpine
 # Copy the custom nginx configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Copy the mime types file
+COPY mime.types /etc/nginx/mime.types
+
 # Copy built files from the build stage
 COPY --from=builder /home/node/app/dist /usr/share/nginx/html
 
