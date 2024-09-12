@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
 import FavoriteCard from "../components/FavoriteCard";
+import Loading from "../components/Loading";
 
 const Favorite = () => {
   const { user } = useAuthContext();
@@ -96,7 +97,7 @@ const Favorite = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   if (error) {

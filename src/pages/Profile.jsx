@@ -16,6 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import Loading from "../components/Loading";
 
 const Profile = () => {
   const [userDetail, setUserDetail] = useState({});
@@ -101,7 +102,7 @@ const Profile = () => {
     userDetail?.profile?.bio || "This user has not provided a bio.";
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   if (error) {

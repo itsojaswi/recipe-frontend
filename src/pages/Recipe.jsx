@@ -9,6 +9,7 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import { formatDistanceToNow } from "date-fns";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import Loading from "@/components/Loading";
 
 const dummyRecipe = [
   {
@@ -79,7 +80,7 @@ const Recipe = () => {
   }, [recipeId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {

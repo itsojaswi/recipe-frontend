@@ -277,21 +277,20 @@ const AddRecipe = () => {
                   />
                   <button
                     type="button"
-                    className="h-[3rem] w-[3rem] bg-red-500 rounded-full text-white flex items-center justify-center"
                     onClick={() => removeIngredient(index)}
+                    className="text-[#BD6E64]"
                   >
                     <FaTrash />
                   </button>
                 </div>
               ))}
-              <button
+              <Button
                 type="button"
                 onClick={() => appendIngredient({ name: "", quantity: "" })}
-                className="flex items-center gap-2 text-blue-500"
+                className="bg-[#BD6E64] text-white py-2 px-2 rounded-full h-[42px] w-[42px] mb-4 hover:bg-[#BD6E64]"
               >
                 <FaPlus />
-                Add Ingredient
-              </button>
+              </Button>
             </div>
           </div>
           <div className="flex-grow flex">
@@ -313,21 +312,20 @@ const AddRecipe = () => {
                   />
                   <button
                     type="button"
-                    className="h-[3rem] w-[3rem] bg-red-500 rounded-full text-white flex items-center justify-center"
                     onClick={() => removeInstruction(index)}
+                    className="text-[#BD6E64]"
                   >
                     <FaTrash />
                   </button>
                 </div>
               ))}
-              <button
+              <Button
                 type="button"
-                onClick={() => appendInstruction({ text: "" })}
-                className="flex items-center gap-2 text-blue-500"
+                onClick={() => appendInstruction({ text: "" })} // Append an object with 'text' property
+                className="bg-[#BD6E64] text-white py-2 px-2 h-[42px] w-[42px] rounded-full mb-4 hover:bg-[#BD6E64]"
               >
                 <FaPlus />
-                Add Instruction
-              </button>
+              </Button>
             </div>
           </div>
           <div className=" flex p-4 justify-end">

@@ -4,6 +4,7 @@ import MyRecipeCard from "../components/MyRecipeCard";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Button } from "../components/ui/button";
 import { Link } from "react-router-dom";
+import Loading from "../components/Loading";
 
 const MyRecipesPage = () => {
   const { user } = useAuthContext();
@@ -79,7 +80,7 @@ const MyRecipesPage = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   if (recipes && recipes.length === 0) {
