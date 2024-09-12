@@ -9,6 +9,7 @@ import { IoFastFoodSharp } from "react-icons/io5";
 import { LuDessert } from "react-icons/lu";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
+import Loading from "../components/Loading";
 
 // Define the categories for filtering recipes
 const categories = [
@@ -54,7 +55,7 @@ const Recipes = () => {
   }, [token]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
   if (error) {
     return <p>Error: {error.message}</p>;
